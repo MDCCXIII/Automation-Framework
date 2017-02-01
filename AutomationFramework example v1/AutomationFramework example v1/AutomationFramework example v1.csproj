@@ -58,16 +58,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls.cs" />
-    <Compile Include="Drivers.cs" />
-    <Compile Include="Environment.cs" />
-    <Compile Include="Elements.cs" />
-    <Compile Include="MyFirstTest.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Examples\Controls.cs" />
+    <Compile Include="Examples\Drivers.cs" />
+    <Compile Include="Examples\Environment.cs" />
+    <Compile Include="Examples\Elements.cs" />
+    <Compile Include="Examples\MyFirstTest.cs" />
+    <Compile Include="Examples\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SiteModel.cs" />
-    <Compile Include="TestResultUtility.cs" />
-    <Compile Include="TestRunnerMvc.cs" />
+    <Compile Include="Examples\SiteModel.cs" />
+    <Compile Include="Examples\TestResultUtility.cs" />
+    <Compile Include="Examples\TestRunnerMvc.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

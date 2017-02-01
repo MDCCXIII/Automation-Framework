@@ -14,7 +14,7 @@ namespace AutomationFramework_example_v1
     class Driver<T> where T : IWebDriver, new()
     {
         IWebDriver driver;
-        public string CurrentTest { get; set; }
+        public string TestDescription { get; set; }
 
         public Driver()
         {
@@ -111,7 +111,7 @@ namespace AutomationFramework_example_v1
         //public void main()
         //{
         //    Driver<FirefoxDriver> driver = new Driver<FirefoxDriver>();
-        //    driver.CurrentTest = "Entering to google website with Firefox Driver";
+        //    driver.TestDescription = "Entering to google website with Firefox Driver";
         //    driver.Navigate().GoToUrl("www.google.com");
         //}
     }
