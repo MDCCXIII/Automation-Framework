@@ -33,8 +33,22 @@ namespace AutomationFramework_example_v1
             }
             IWebElement Link_Actionable_Dashboard = new Elements().ByXpath("//{0}[contains({1}, '{2}')] ", new string[] { "a", "text()", "Handle Call" });
             Link_Actionable_Dashboard.Click();
-            IWebElement PageHeader = new Elements().ByXpath("//div[contains(@id, 'tfhPerspectives')][contains(@style,'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//{0}[contains({1}, '{2}')]", new string[] { "h1", "@id", "lblIdentifyPerson" });
+            string pageXpath = "//div[contains(@id, 'tfhPerspectives')][contains(@style,'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//{0}[contains({1}, '{2}')]";
+            IWebElement PageHeader = new Elements().ByXpath(pageXpath, new string[] { "h1", "@id", "lblIdentifyPerson" });
             if (!PageHeader.TextEqual("Identify Person")) { throw new Exception("Failed"); }
+            IWebElement LastNameText = new Elements().ByXpath(pageXpath, new string[] { "input", "@id", "txtLastName" });
+            LastNameText.SendKeys("Smith");
+            IWebElement FirstNameText = new Elements().ByXpath(pageXpath, new string[] { "input", "@id", "txtFirstName" });
+            FirstNameText.SendKeys("Jan");
+            IWebElement ZipText = new Elements().ByXpath(pageXpath, new string[] { "input", "@id", "txtZip" });
+            ZipText.SendKeys("635524");
+            IWebElement DobText = new Elements().ByXpath(pageXpath, new string[] { "input", "@id", "datDob" });
+            DobText.SendKeys("07/01/1946");
+            IWebElement ViewProfileCheckbox = new Elements().ByXpath(pageXpath, new string[] { "input", "@id", "chkLaunchProfile" });
+            ViewProfileCheckbox.Click();
+            IWebElement SearchButton = new Elements().ByXpath(pageXpath, new string[] { "button", "@id", "btnSearch" });
+            SearchButton.Click();
+            IWebElement ResultsTable = new Elements().ByXpath(pageXpath, new string[] { "div", "@id", "lstPerson_table" });
         }
     }
 

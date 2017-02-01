@@ -22,3 +22,6 @@ C:\Users\ahayes\Source\Repos\Automation-Framework\AutomationFramework example v1
 C:\Users\ahayes\Source\Repos\Automation-Framework\AutomationFramework example v1\AutomationFramework example v1\obj\Debug\AutomationFramework example v1.csprojResolveAssemblyReference.cache
 C:\Users\ahayes\Source\Repos\Automation-Framework\AutomationFramework example v1\AutomationFramework example v1\obj\Debug\AutomationFramework example v1.exe
 C:\Users\ahayes\Source\Repos\Automation-Framework\AutomationFramework example v1\AutomationFramework example v1\obj\Debug\AutomationFramework example v1.pdb
+C:\Users\jmccullough\Source\Repos\Automation-Framework2\AutomationFramework example v1\AutomationFramework example v1\bin\Debug\AutomationFramework example v1.exe.config
+C:\Users\jmccullough\Source\Repos\Automation-Framework2\AutomationFramework example v1\AutomationFramework example v1\obj\Debug\AutomationFramework example v1.exe
+C:\Users\jmccullough\Source\Repos\Automation-Framework2\AutomationFramework example v1\AutomationFramework example v1\obj\Debug\AutomationFramework example v1.pdb
