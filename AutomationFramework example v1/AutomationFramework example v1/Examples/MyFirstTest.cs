@@ -11,7 +11,7 @@ namespace AutomationFramework_example_v1
     class MyFirstTest
     {
         public static IWebDriver driver = new ChromeDriver();
-        static void Main1()
+        public static void Main1()
         {
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
             driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(30));
