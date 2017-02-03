@@ -14,7 +14,8 @@ namespace AutomationFramework_example_v1.Framework.SQL
 
         public Command(string cmdText)
         {
-            command.CommandText = cmdText;
+            command = new SqlCommand(cmdText);
+            SetCommandType();
         }
 
         public void AddParameter(string parameterName, string parameterValue)

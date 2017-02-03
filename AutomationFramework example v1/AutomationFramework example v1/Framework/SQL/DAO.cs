@@ -16,24 +16,25 @@ namespace AutomationFramework_example_v1.Framework.SQL
                 {
                     conn.Open();
                     command.ExecuteNonQuery();
+                    
                 }
             }
         }
 
-        public static void ExecuteStoredProcedure(SqlCommand cmd)
+        public static DataSet ExecuteStoredProcedure(Command command)
         {
-            if(cmd.Connection.ConnectionString == null)
+            SqlCommand cmd = command.command;
+            cmd.CheckConnectivity();
+
+            DataSet ds = new DataSet();
+            using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
             {
-                string connectionString = ConfigurationManager.ConnectionStrings[Program.DefaultConnectionStringName].ConnectionString;
-                cmd.Connection = new SqlConnection(connectionString);
+                adapter.TableMappings.Add("Suite", "Suite");
+                adapter.Fill(ds);
             }
-            using (cmd)
-            {
-                cmd.Connection.Open();
-                cmd.ExecuteNonQuery();
-            }
-            
+            return ds;
         }
+
         public static void ExecuteStoredProcedure(SqlCommand cmd, string connectionString)
         {
             if (cmd.Connection.ConnectionString == null)
