@@ -67,6 +67,7 @@
     <Compile Include="Examples\Environment.cs" />
     <Compile Include="Examples\Elements.cs" />
     <Compile Include="Examples\MyFirstTest.cs" />
+    <Compile Include="Framework\Extensions.cs" />
     <Compile Include="Framework\SQL\Command.cs" />
     <Compile Include="Framework\SQL\DAO.cs" />
     <Compile Include="Program.cs" />
