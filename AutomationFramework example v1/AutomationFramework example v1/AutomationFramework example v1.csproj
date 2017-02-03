@@ -40,6 +40,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -66,6 +67,8 @@
     <Compile Include="Examples\Environment.cs" />
     <Compile Include="Examples\Elements.cs" />
     <Compile Include="Examples\MyFirstTest.cs" />
+    <Compile Include="Framework\SQL\Command.cs" />
+    <Compile Include="Framework\SQL\DAO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Examples\SiteModel.cs" />
