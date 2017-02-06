@@ -10,7 +10,8 @@ namespace AutomationFramework_example_v1
         /// <summary>
         /// The default connection string name from the App config.
         /// </summary>
-        public const string DefaultConnectionStringName = "Tony'sLocalConnection";
+       // public const string DefaultConnectionStringName = "Tony'sLocalConnection";
+        public const string DefaultConnectionStringName = "James'LocalConnection";
 
         static void Main(string[] args)
         {
