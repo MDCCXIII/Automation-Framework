@@ -18,7 +18,7 @@ namespace AutomationFramework_example_v1.Framework.SQL
 
         public virtual string Name
         {
-            get { return Name; }
+            get { return ColumnName; }
         }
 
         public virtual object Value

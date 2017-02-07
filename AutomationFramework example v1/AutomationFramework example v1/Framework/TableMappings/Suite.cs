@@ -25,7 +25,10 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
         public List<Suite> Populate()
         {
             Command cmd = new Command("getSuiteInformation");
-            return this.ExecuteStoredProcedure(cmd);
+            List<Suite> result = this.ExecuteStoredProcedure(cmd);
+            cmd.Dispose();
+            return result;
+
         }
     }
 }
