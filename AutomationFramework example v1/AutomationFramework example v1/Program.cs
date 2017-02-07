@@ -1,6 +1,6 @@
-﻿
-
-using AutomationFramework_example_v1.Framework.SQL;
+﻿using AutomationFramework_example_v1.Framework.SQL;
+using AutomationFramework_example_v1.Framework.TableMappings;
+using System.Collections.Generic;
 using System.Data;
 
 namespace AutomationFramework_example_v1
@@ -15,8 +15,7 @@ namespace AutomationFramework_example_v1
 
         static void Main(string[] args)
         {
-            Command cmd = new Command("getSuiteInformation");
-            DataSet ds = DAO.ExecuteStoredProcedure(cmd);
+           List<Suite> suiteInfo = new Suite().Populate();
             
             //MyFirstTest.Main1();
             //may be able to pass in the path for the test suite inventory to drive the current instance of the framework
