@@ -49,6 +49,7 @@ namespace AutomationFramework_example_v1.Framework
         {
             return GetFieldName(() => field);
         }
+
         private static string GetFieldName<T>(Expression<Func<T>> expr)
         {
             var body = ((MemberExpression)expr.Body);
