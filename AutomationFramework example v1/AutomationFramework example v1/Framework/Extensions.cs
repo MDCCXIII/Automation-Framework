@@ -34,7 +34,7 @@ namespace AutomationFramework_example_v1.Framework
             return cmd;
         }
 
-        public static bool columnMatch<T>(this T c, string ColumnName, string fieldname) where T : class
+        public static bool columnMatch<T>(this T c, string ColumnName, string fieldname) where T : class 
         {
             return c.GetNameAttribute(fieldname).Equals(ColumnName);
         }
