@@ -69,11 +69,11 @@
     <Compile Include="Examples\Elements.cs" />
     <Compile Include="Examples\MyFirstTest.cs" />
     <Compile Include="Framework\Extensions.cs" />
-    <Compile Include="Framework\SQL\ColumnMap.cs" />
-    <Compile Include="Framework\SQL\Command.cs" />
-    <Compile Include="Framework\SQL\DAO.cs" />
-    <Compile Include="Framework\SQL\ITableMap.cs" />
-    <Compile Include="Framework\SQL\TableMap.cs" />
+    <Compile Include="Framework\SQL\DONT TOUCH\ColumnMap.cs" />
+    <Compile Include="Framework\SQL\DONT TOUCH\Command.cs" />
+    <Compile Include="Framework\SQL\DONT TOUCH\DAO.cs" />
+    <Compile Include="Framework\SQL\DONT TOUCH\ITableMap.cs" />
+    <Compile Include="Framework\SQL\DONT TOUCH\TableMap.cs" />
     <Compile Include="Framework\TableMappings\Suite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
