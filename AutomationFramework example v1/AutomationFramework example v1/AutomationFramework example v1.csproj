@@ -43,6 +43,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Reflection.Context" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,8 +69,12 @@
     <Compile Include="Examples\Elements.cs" />
     <Compile Include="Examples\MyFirstTest.cs" />
     <Compile Include="Framework\Extensions.cs" />
+    <Compile Include="Framework\SQL\ColumnMap.cs" />
     <Compile Include="Framework\SQL\Command.cs" />
     <Compile Include="Framework\SQL\DAO.cs" />
+    <Compile Include="Framework\SQL\ITableMap.cs" />
+    <Compile Include="Framework\SQL\TableMap.cs" />
+    <Compile Include="Framework\TableMappings\Suite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Examples\SiteModel.cs" />

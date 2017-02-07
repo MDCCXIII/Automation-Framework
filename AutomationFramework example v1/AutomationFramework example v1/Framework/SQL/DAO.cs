@@ -2,10 +2,11 @@
 using System.Configuration;
 using System.Data;
 using System.Collections.Generic;
+using AutomationFramework_example_v1.Framework.TableMappings;
 
 namespace AutomationFramework_example_v1.Framework.SQL
 {
-    class DAO
+    static class DAO
     {
         public static void ExecuteStoredProcedure(string ProcedureName)
         {
@@ -21,18 +22,31 @@ namespace AutomationFramework_example_v1.Framework.SQL
             }
         }
 
-        public static DataSet ExecuteStoredProcedure(Command command)
+        public static List<T> ExecuteStoredProcedure<T>(this T clazz, Command command) where T : Suite
         {
             SqlCommand cmd = command.command;
             cmd.CheckConnectivity();
-
-            DataSet ds = new DataSet();
-            using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+            
+            List<T> result = new List<T>();
+            using (SqlDataReader rdr = cmd.ExecuteReader())
             {
-                adapter.TableMappings.Add("Suite", "Suite");
-                adapter.Fill(ds);
+               List<string> columns = new List<string>();
+               for (int i = 0; i < rdr.FieldCount; i++)
+               {
+                   if (clazz.HasColumn<T>(rdr.GetName(i))){
+                        columns.Add(rdr.GetName(i));
+                    }      
+               }
+                while (rdr.HasRows)
+                {
+                    foreach(string column in columns)
+                    {
+                        clazz.SetValue<T>(rdr[column].ToString()); 
+                    }
+                    result.Add(clazz);
+                }
             }
-            return ds;
+            return result;
         }
 
         public static void ExecuteStoredProcedure(SqlCommand cmd, string connectionString)
