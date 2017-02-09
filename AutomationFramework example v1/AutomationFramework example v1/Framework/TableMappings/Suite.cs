@@ -20,7 +20,10 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
         public bool execute;
 
         [ColumnMap("Browser")]
-        public string Browser;
+        public string browser;
+
+        [ColumnMap("Project Name")]
+        public string projectName;
 
         public List<Suite> Populate()
         {
