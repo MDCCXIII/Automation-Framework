@@ -18,6 +18,8 @@ namespace AutomationFramework_example_v1
             driver.Manage().Window.Maximize();
             // Navagation to URL
             driver.Url = "https://aarp-test.kanacloud.com/GTConnect/UnifiedAcceptor/AARPDesktop.Main";
+           
+            
             // Login
             IWebElement Text_UserName = new Elements().ById("userName");
             Text_UserName.SendKeys("ALP_MRA_15");

@@ -60,7 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\Control.cs" />
+    <Compile Include="Framework\StepInfo.cs" />
     <Compile Include="Framework\Controller.cs" />
     <Compile Include="Framework\Driver.cs" />
     <Compile Include="Examples\Controls.cs" />
@@ -74,6 +74,7 @@
     <Compile Include="Framework\SQL\DONT TOUCH\DAO.cs" />
     <Compile Include="Framework\SQL\DONT TOUCH\ITableMap.cs" />
     <Compile Include="Framework\SQL\DONT TOUCH\TableMap.cs" />
+    <Compile Include="Framework\TableMappings\ProjectInfo.cs" />
     <Compile Include="Framework\TableMappings\Suite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

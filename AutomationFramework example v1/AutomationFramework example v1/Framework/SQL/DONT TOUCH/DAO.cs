@@ -34,7 +34,7 @@ namespace AutomationFramework_example_v1.Framework.SQL
         /// <param name="clazz"></param>
         /// <param name="command"></param>
         /// <returns></returns>
-        public static List<T> ExecuteStoredProcedure<T>(this T clazz, Command command) where T : Suite
+        public static List<T> ExecuteStoredProcedure<T>(this T clazz, Command command) where T : TableMap
         {
             SqlCommand cmd = command.command;
             cmd = cmd.CheckConnectivity();
