@@ -25,10 +25,16 @@ namespace AutomationFramework_example_v1.Framework.SQL
         public void SetValue<T>(T c, string columnName, object val) where T : class
         {
             bool x = false;
+            int y = 0;
             if(Boolean.TryParse((string)val, out x))
             {
                 val = x;
             }
+            else if(Int32.TryParse((string)val, out y))
+            {
+                val = y;
+            }
+            
             foreach (FieldInfo f in typeof(T).GetFields())
             {
                 if (c.columnMatch(columnName, f.Name))

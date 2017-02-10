@@ -10,19 +10,19 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
 {
     class Suite : TableMap
     {
-        [ColumnMap("Test Id")]
-        public string testId;
+        [ColumnMap("Id")]
+        public int Id;
 
-        [ColumnMap("Test Name")]
+        [ColumnMap("testName")]
         public string testName;
 
         [ColumnMap("Execute")]
         public bool execute;
 
-        [ColumnMap("Browser")]
+        [ColumnMap("testedBrowser")]
         public string browser;
 
-        [ColumnMap("Project Name")]
+        [ColumnMap("projectName")]
         public string projectName;
 
         public List<Suite> Populate()

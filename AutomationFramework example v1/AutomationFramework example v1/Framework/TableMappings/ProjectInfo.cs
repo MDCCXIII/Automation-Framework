@@ -9,9 +9,13 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
 {
     class ProjectInfo : TableMap
     {
-        [ColumnMap("Project Name")]
+        [ColumnMap("projectId")]
+        public int Id;
+
+        [ColumnMap("projectName")]
         public string Name;
-        [ColumnMap("Project Url")]
+
+        [ColumnMap("projectUrl")]
         public string Url;
 
         public ProjectInfo Populate(string projectName)

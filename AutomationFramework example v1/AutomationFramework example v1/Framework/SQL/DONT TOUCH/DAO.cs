@@ -4,6 +4,7 @@ using System.Data;
 using System.Collections.Generic;
 using AutomationFramework_example_v1.Framework.TableMappings;
 using System;
+using NUnit.Framework;
 
 namespace AutomationFramework_example_v1.Framework.SQL
 {
@@ -58,7 +59,14 @@ namespace AutomationFramework_example_v1.Framework.SQL
                         clazz = (T)Activator.CreateInstance(typeof(T));
                         foreach (string column in columns)
                         {
-                            clazz.SetValue<T>(clazz, column, rdr[column].ToString());
+                            if (rdr.GetFieldType(rdr.GetOrdinal(column)).Name.Equals("Int32") && rdr[column].ToString().Equals(""))
+                            {
+                                clazz.SetValue<T>(clazz, column, 0.ToString());
+                            }
+                            else
+                            {
+                                clazz.SetValue<T>(clazz, column, rdr[column].ToString());
+                            }
                         }
                         result.Add(clazz);
                     }
