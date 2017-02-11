@@ -1,9 +1,8 @@
-﻿using System;
-using AutomationFramework_example_v1.Framework.TableMappings;
+﻿using AutomationFramework_example_v1.Framework.TableMappings;
 using OpenQA.Selenium;
-using AutomationFramework_example_v1.Framework;
+using System;
 
-namespace AutomationFramework_example_v1
+namespace AutomationFramework_example_v1.Framework
 {
     static class Elements
     {
@@ -50,13 +49,13 @@ namespace AutomationFramework_example_v1
             IWebElement result = null;
             if (pathInfo != null)
             {
-                result = NewMethod(pathInfo.pathType, controlInfo, pathInfo, result);
+                result = ByPathType(pathInfo.pathType, controlInfo, pathInfo, result);
             }
             else
             {
                 if(controlInfo.identifyingNodeType != null)
                 {
-                    result = NewMethod(controlInfo.identifyingNodeType, controlInfo, pathInfo, result);
+                    result = ByPathType(controlInfo.identifyingNodeType, controlInfo, pathInfo, result);
                 }
                 else
                 {
@@ -68,7 +67,7 @@ namespace AutomationFramework_example_v1
             return result;
         }
 
-        private static IWebElement NewMethod(string pathType, ControlInfo controlInfo, PathInfo pathInfo, IWebElement result)
+        private static IWebElement ByPathType(string pathType, ControlInfo controlInfo, PathInfo pathInfo, IWebElement result)
         {
             switch (pathType.ToLower())
             {

@@ -1,12 +1,7 @@
 ﻿using AutomationFramework_example_v1.Framework.SQL;
-using OpenQA.Selenium;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AutomationFramework_example_v1
+namespace AutomationFramework_example_v1.Framework.TableMappings
 {
     class StepInfo : TableMap
     {
@@ -17,9 +12,6 @@ namespace AutomationFramework_example_v1
 
         [ColumnMap("controlName")]
         public string controlName;
-
-        [ColumnMap("expectedValue")]
-        public string expectedValue;
 
         [ColumnMap("action")]
         public string action;

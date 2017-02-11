@@ -83,7 +83,6 @@
     <Compile Include="Framework\SQL\DONT TOUCH\TableMap.cs" />
     <Compile Include="Framework\TableMappings\ProjectInfo.cs" />
     <Compile Include="Framework\TableMappings\Suite.cs" />
-    <Compile Include="Framework\TableMappings\TableMappingExtensions.cs" />
     <Compile Include="Framework\TableMappings\TestInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,7 +6,6 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading;
 
 namespace AutomationFramework_example_v1.Framework
@@ -89,8 +88,6 @@ namespace AutomationFramework_example_v1.Framework
         {
             return driver.FindElement(By.XPath(string.Format(Xpath, parameters)), timeoutInSeconds);
         }
-
-
 
         public static IWebElement FindElement(this IWebDriver driver, By by, int timeoutInSeconds)
         {
