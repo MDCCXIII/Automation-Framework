@@ -1,10 +1,8 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Collections.Generic;
-using AutomationFramework_example_v1.Framework.TableMappings;
-using System;
-using NUnit.Framework;
+using System.Data.SqlClient;
 
 namespace AutomationFramework_example_v1.Framework.SQL
 {

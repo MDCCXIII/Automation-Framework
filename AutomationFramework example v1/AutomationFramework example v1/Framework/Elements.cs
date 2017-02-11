@@ -1,9 +1,8 @@
-﻿using System;
-using AutomationFramework_example_v1.Framework.TableMappings;
+﻿using AutomationFramework_example_v1.Framework.TableMappings;
 using OpenQA.Selenium;
-using AutomationFramework_example_v1.Framework;
+using System;
 
-namespace AutomationFramework_example_v1
+namespace AutomationFramework_example_v1.Framework
 {
     static class Elements
     {

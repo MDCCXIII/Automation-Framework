@@ -6,7 +6,6 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading;
 
 namespace AutomationFramework_example_v1.Framework
