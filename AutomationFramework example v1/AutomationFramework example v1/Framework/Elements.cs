@@ -49,13 +49,13 @@ namespace AutomationFramework_example_v1.Framework
             IWebElement result = null;
             if (pathInfo != null)
             {
-                result = NewMethod(pathInfo.pathType, controlInfo, pathInfo, result);
+                result = ByPathType(pathInfo.pathType, controlInfo, pathInfo, result);
             }
             else
             {
                 if(controlInfo.identifyingNodeType != null)
                 {
-                    result = NewMethod(controlInfo.identifyingNodeType, controlInfo, pathInfo, result);
+                    result = ByPathType(controlInfo.identifyingNodeType, controlInfo, pathInfo, result);
                 }
                 else
                 {
@@ -67,7 +67,7 @@ namespace AutomationFramework_example_v1.Framework
             return result;
         }
 
-        private static IWebElement NewMethod(string pathType, ControlInfo controlInfo, PathInfo pathInfo, IWebElement result)
+        private static IWebElement ByPathType(string pathType, ControlInfo controlInfo, PathInfo pathInfo, IWebElement result)
         {
             switch (pathType.ToLower())
             {

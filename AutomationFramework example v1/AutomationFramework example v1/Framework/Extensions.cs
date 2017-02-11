@@ -89,8 +89,6 @@ namespace AutomationFramework_example_v1.Framework
             return driver.FindElement(By.XPath(string.Format(Xpath, parameters)), timeoutInSeconds);
         }
 
-
-
         public static IWebElement FindElement(this IWebDriver driver, By by, int timeoutInSeconds)
         {
             if (timeoutInSeconds > 0)

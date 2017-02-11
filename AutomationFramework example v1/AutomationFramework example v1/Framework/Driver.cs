@@ -34,9 +34,8 @@ namespace AutomationFramework_example_v1.Framework
             return result;
         }
 
-        internal static void setUrl(this IWebDriver driver, string projectName)
+        internal static void setUrl(this IWebDriver driver, ProjectInfo projectInfo)
         {
-            ProjectInfo projectInfo = new ProjectInfo().Populate(projectName);
             driver.Url = projectInfo.Url;
         }
     }

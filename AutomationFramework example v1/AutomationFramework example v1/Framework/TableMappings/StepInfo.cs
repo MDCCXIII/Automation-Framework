@@ -13,9 +13,6 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
         [ColumnMap("controlName")]
         public string controlName;
 
-        [ColumnMap("expectedValue")]
-        public string expectedValue;
-
         [ColumnMap("action")]
         public string action;
 
