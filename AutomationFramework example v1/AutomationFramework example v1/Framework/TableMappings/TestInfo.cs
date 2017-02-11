@@ -4,33 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
 {
-    class Suite : TableMap
+    class TestInfo : TableMap
     {
 #pragma warning disable 0169
 #pragma warning disable 0649
-        [ColumnMap("Id")]
-        public int Id;
+        [ColumnMap("id")]
+        public int id;
 
         [ColumnMap("testName")]
         public string testName;
 
-        [ColumnMap("Execute")]
-        public bool execute;
+        [ColumnMap("stepProcedureName")]
+        public string stepProcedureName;
 
-        [ColumnMap("testedBrowser")]
-        public string browser;
+        [ColumnMap("testDescription")]
+        public string testDescription;
 
         [ColumnMap("projectName")]
         public string projectName;
 
-        public List<Suite> Populate()
+        public TestInfo Populate(string testName, string projectName)
         {
-            Command cmd = new Command("getSuiteInformation");
-            List<Suite> result = this.ExecuteStoredProcedure(cmd);
+            Command cmd = new Command("getTestInformation");
+            cmd.AddParameter("testName", testName);
+            cmd.AddParameter("projectName", projectName);
+            TestInfo result = this.ExecuteStoredProcedure(cmd)[0];
             cmd.Dispose();
             return result;
 
