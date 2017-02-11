@@ -39,7 +39,15 @@ namespace AutomationFramework_example_v1.Framework.SQL
             {
                 if (c.columnMatch(columnName, f.Name))
                 {
-                    f.SetValue(c, val);
+                    if (f.Name.Equals("parameters"))
+                    {
+                        f.SetValue(c, val.ToString());
+                    }
+                    else
+                    {
+                        f.SetValue(c, val);
+                    }
+                    
                     break;
                 }
             }

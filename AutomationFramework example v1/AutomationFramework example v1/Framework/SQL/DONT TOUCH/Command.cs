@@ -71,7 +71,7 @@ namespace AutomationFramework_example_v1.Framework.SQL
                 this.command.Connection.Dispose();
                 this.command.Dispose();
             }
-            catch(Exception ex)
+            catch(Exception)
             {
 
             }

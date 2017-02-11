@@ -24,6 +24,10 @@ namespace AutomationFramework_example_v1
             return Controller.driver.FindElement(id, timeoutInSeconds);
         }
 
+        public static IWebElement ByXpath(By Xpath)
+        {
+            return Controller.driver.FindElement(Xpath);
+        }
         public static IWebElement ByXpath(string Xpath)
         {
             return Controller.driver.FindElement(By.XPath(Xpath));

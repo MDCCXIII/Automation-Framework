@@ -9,6 +9,8 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
 {
     class ControlInfo : TableMap
     {
+#pragma warning disable 0169
+#pragma warning disable 0649
         [ColumnMap("controlId")]
         public int controlId = 0;
 
@@ -40,5 +42,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             return result;
 
         }
+#pragma warning restore 0169
+#pragma warning restore 0649
     }
 }

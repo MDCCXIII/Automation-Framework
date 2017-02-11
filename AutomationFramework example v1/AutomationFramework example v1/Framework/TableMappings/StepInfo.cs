@@ -10,6 +10,8 @@ namespace AutomationFramework_example_v1
 {
     class StepInfo : TableMap
     {
+#pragma warning disable 0169
+#pragma warning disable 0649
         [ColumnMap("stepNumber")]
         public int stepNumber;
 
@@ -40,5 +42,7 @@ namespace AutomationFramework_example_v1
             cmd.Dispose();
             return result;
         }
+#pragma warning restore 0169
+#pragma warning restore 0649
     }
 }

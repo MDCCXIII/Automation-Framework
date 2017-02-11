@@ -63,6 +63,10 @@ namespace AutomationFramework_example_v1.Framework.SQL
                             {
                                 clazz.SetValue<T>(clazz, column, 0.ToString());
                             }
+                            //else if (rdr.GetFieldType(rdr.GetOrdinal(column)).Name.Equals("Int32"))
+                            //{
+                            //    clazz.SetValue<T>(clazz, column, Convert.ToString(rdr[column]));
+                            //}
                             else
                             {
                                 clazz.SetValue<T>(clazz, column, rdr[column].ToString());

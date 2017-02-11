@@ -28,6 +28,9 @@ namespace AutomationFramework_example_v1.Framework
                 case "login":
                     Login();
                     break;
+                case "logout":
+                    Logout();
+                    break;
                 default:
                     throw new Exception("The Keyword " + keyword + " is not a valid Keyword.");
             }
@@ -47,6 +50,7 @@ namespace AutomationFramework_example_v1.Framework
             Text_UserName.SendKeys(userName);
             IWebElement Text_Password = Elements.ById("password");
             Text_Password.SendKeys(password);
+            driver.Wait(1);
             IWebElement Button_Login = Elements.ById("loginButton");
             Button_Login.Click();
             By btnContinue = By.Id("f5_btnContinue");
@@ -57,6 +61,37 @@ namespace AutomationFramework_example_v1.Framework
                 Button_Continue.Click();
             }
             driver.Wait(10);
+        }
+
+        private static void Logout()
+        {
+            Wrapup();
+            // Locate and click logout button
+            IWebElement LogoutButton = Elements.ById("f7_btnLogout");
+            LogoutButton.Click();
+            IWebElement ConfirmLogoutButton = Elements.ByXpath("//button[contains(@id, 'btnConfirm')]");
+            ConfirmLogoutButton.Click();
+        }
+
+        private static void Wrapup()
+        {
+            By buttonWrapup = By.XPath("//button[contains(@id, 'btnWrapup') and not(contains(@id, 'info'))]");
+            if (driver.IsElementPresent(buttonWrapup))
+            {
+                IWebElement WrapupButton = Elements.ByXpath(buttonWrapup);
+                WrapupButton.Click();
+                // Locate and select Disposition Select option X-Research
+                IWebElement DispositionSelect = Elements.ByXpath("//div[contains(@id, 'tfhPerspectives')][contains(@style, 'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//select[contains(@id, 'optReasonCodes')]");
+                DispositionSelect.SelectOptionByText("X-Research");
+                // Locate and select YesNo Select option Yes
+                IWebElement YesNoSelect = Elements.ByXpath("//div[contains(@id, 'tfhPerspectives')][contains(@style, 'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//select[contains(@id, 'optYesNo')]");
+                YesNoSelect.SelectOptionByText("Yes");
+                driver.Wait(2);
+                // Locate and click confirm button
+                IWebElement ConfirmButton = Elements.ByXpath("//div[contains(@id, 'tfhPerspectives')][contains(@style, 'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//button[contains(@id, 'btnConfirm')]");
+                ConfirmButton.Click();
+                driver.Wait(2);
+            }
         }
     }
 }
