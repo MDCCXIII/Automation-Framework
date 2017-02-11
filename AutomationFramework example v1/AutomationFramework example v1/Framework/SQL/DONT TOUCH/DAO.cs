@@ -1,34 +1,16 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Collections.Generic;
-using AutomationFramework_example_v1.Framework.TableMappings;
-using System;
+using System.Data.SqlClient;
 
 namespace AutomationFramework_example_v1.Framework.SQL
 {
     static class DAO
     {
-        /// <summary>
-        /// NOT WORKING!!!
-        /// </summary>
-        /// <param name="ProcedureName"></param>
-        private static void ExecuteStoredProcedure(string ProcedureName)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings[Program.DefaultConnectionStringName].ConnectionString;
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(ProcedureName, conn) { CommandType = CommandType.StoredProcedure })
-                {
-                    conn.Open();
-                    command.ExecuteNonQuery();
-
-                }
-            }
-        }
 
         /// <summary>
-        /// WORKING: takes in a command and populates the class that called this method.
+        /// Takes in a command and populates the class that called this method.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="clazz"></param>
@@ -58,7 +40,14 @@ namespace AutomationFramework_example_v1.Framework.SQL
                         clazz = (T)Activator.CreateInstance(typeof(T));
                         foreach (string column in columns)
                         {
-                            clazz.SetValue<T>(clazz, column, rdr[column].ToString());
+                            if (rdr.GetFieldType(rdr.GetOrdinal(column)).Name.Equals("Int32") && rdr[column].ToString().Equals(""))
+                            {
+                                clazz.SetValue<T>(clazz, column, 0.ToString());
+                            }
+                            else
+                            {
+                                clazz.SetValue<T>(clazz, column, rdr[column].ToString());
+                            }
                         }
                         result.Add(clazz);
                     }
@@ -67,73 +56,5 @@ namespace AutomationFramework_example_v1.Framework.SQL
             return result;
         }
 
-        /// <summary>
-        /// NOT WORKING
-        /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="connectionString"></param>
-        private static void ExecuteStoredProcedure(SqlCommand cmd, string connectionString)
-        {
-            if (cmd.Connection.ConnectionString == null)
-            {
-                cmd.Connection = new SqlConnection(connectionString);
-            }
-            using (cmd)
-            {
-                cmd.Connection.Open();
-                cmd.ExecuteNonQuery();
-            }
-
-        }
-        /// <summary>
-        /// NOT WORKING
-        /// </summary>
-        /// <param name="ProcedureName"></param>
-        /// <param name="Parameters"></param>
-        private static void ExecuteStoredProcedure(string ProcedureName, Dictionary<string, string> Parameters)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings[Program.DefaultConnectionStringName].ConnectionString;
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(ProcedureName, conn) { CommandType = CommandType.StoredProcedure })
-                {
-                    foreach (KeyValuePair<string, string> parameter in Parameters)
-                    {
-                        command.Parameters.Add(new SqlParameter(parameter.Key, parameter.Value));
-                    }
-                    conn.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
-
-        /// <summary>
-        /// NOT WORKING
-        /// </summary>
-        /// <param name="ProcedureName"></param>
-        /// <param name="parameterNames"></param>
-        /// <param name="ParameterValues"></param>
-        private static void ExecuteStoredProcedure(string ProcedureName, string[] parameterNames, string[] ParameterValues)
-        {
-            if (parameterNames.Length != ParameterValues.Length)
-            {
-                throw new System.Exception("ExecuteStoredProcedure: Missmatch number of parameter name/value pairs.");
-            }
-
-            string connectionString = ConfigurationManager.ConnectionStrings[Program.DefaultConnectionStringName].ConnectionString;
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand command = new SqlCommand(ProcedureName, conn) { CommandType = CommandType.StoredProcedure })
-                {
-                    int index = -1;
-                    foreach (string parameter in parameterNames)
-                    {
-                        command.Parameters.Add(new SqlParameter(parameter, ParameterValues[++index]));
-                    }
-                    conn.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
     }
 }

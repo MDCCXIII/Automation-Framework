@@ -3,14 +3,9 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Remote;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AutomationFramework_example_v1
+namespace AutomationFramework_example_v1.Framework
 {
     static class Driver
     {
@@ -31,7 +26,6 @@ namespace AutomationFramework_example_v1
                     break;
                 default:
                     throw new Exception("Bad Driver Identifier: " + BrowserName + ".");
-                    break;
             }
             result.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
             result.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(30));
@@ -40,9 +34,8 @@ namespace AutomationFramework_example_v1
             return result;
         }
 
-        internal static void setUrl(this IWebDriver driver, string projectName)
+        internal static void setUrl(this IWebDriver driver, ProjectInfo projectInfo)
         {
-            ProjectInfo projectInfo = new ProjectInfo().Populate(projectName);
             driver.Url = projectInfo.Url;
         }
     }

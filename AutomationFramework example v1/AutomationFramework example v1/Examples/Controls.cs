@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace AutomationFramework_example_v1
 {
-    class Controls
-    {
+    //class Controls
+    //{
         //public static void findControlByXpath(string Xpath)
         //{
         //    Environment.Control = Environment.Driver.FindElement(By.XPath(Xpath));
@@ -25,5 +25,5 @@ namespace AutomationFramework_example_v1
         //}
 
 
-    }
+    //}
 }

@@ -9,9 +9,9 @@ using OpenQA.Selenium.Chrome;
 
 namespace AutomationFramework_example_v1
 {
-    static class Environment
-    {
-        //public static IWebDriver Driver;
-        //public static IWebElement Control;
-    }
+    //static class Environment
+    //{
+    //    //public static IWebDriver Driver;
+    //    //public static IWebElement Control;
+    //}
 }

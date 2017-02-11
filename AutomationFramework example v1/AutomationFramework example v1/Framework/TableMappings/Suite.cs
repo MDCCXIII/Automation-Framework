@@ -1,28 +1,25 @@
 ﻿using AutomationFramework_example_v1.Framework.SQL;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
 {
     class Suite : TableMap
     {
-        [ColumnMap("Test Id")]
-        public string testId;
+#pragma warning disable 0169
+#pragma warning disable 0649
+        [ColumnMap("Id")]
+        public int Id;
 
-        [ColumnMap("Test Name")]
+        [ColumnMap("testName")]
         public string testName;
 
         [ColumnMap("Execute")]
         public bool execute;
 
-        [ColumnMap("Browser")]
+        [ColumnMap("testedBrowser")]
         public string browser;
 
-        [ColumnMap("Project Name")]
+        [ColumnMap("projectName")]
         public string projectName;
 
         public List<Suite> Populate()
@@ -33,5 +30,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             return result;
 
         }
+#pragma warning restore 0169
+#pragma warning restore 0649
     }
 }
