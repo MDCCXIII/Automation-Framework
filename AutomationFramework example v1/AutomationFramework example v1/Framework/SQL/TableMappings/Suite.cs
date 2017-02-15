@@ -1,4 +1,5 @@
-﻿using AutomationFramework_example_v1.Framework.SQL;
+﻿using AutomationFramework_example_v1.Framework.Log.LogObjects;
+using AutomationFramework_example_v1.Framework.SQL;
 using System.Collections.Generic;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
@@ -29,6 +30,14 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             cmd.Dispose();
             return result;
 
+        }
+
+        public void PopulateLogData()
+        {
+            TestLogData.DefaultTestValues();
+            TestLogData.testName = testName;
+            TestLogData.testedBrowser = browser;
+            TestLogData.projectName = projectName;
         }
 #pragma warning restore 0169
 #pragma warning restore 0649

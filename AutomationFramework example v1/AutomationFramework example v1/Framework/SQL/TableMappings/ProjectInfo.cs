@@ -1,4 +1,5 @@
-﻿using AutomationFramework_example_v1.Framework.SQL;
+﻿using AutomationFramework_example_v1.Framework.Log.LogObjects;
+using AutomationFramework_example_v1.Framework.SQL;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
 {
@@ -21,8 +22,14 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             cmd.AddParameter("projectName", projectName);
             ProjectInfo result = this.ExecuteStoredProcedure(cmd)[0];
             cmd.Dispose();
+            PopulateLogData();
             return result;
 
+        }
+
+        private void PopulateLogData()
+        {
+            TestLogData.projectUrl = Url;
         }
 #pragma warning restore 0169
 #pragma warning restore 0649

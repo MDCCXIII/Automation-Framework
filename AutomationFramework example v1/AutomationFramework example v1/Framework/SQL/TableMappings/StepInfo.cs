@@ -1,4 +1,5 @@
-﻿using AutomationFramework_example_v1.Framework.SQL;
+﻿using AutomationFramework_example_v1.Framework.Log.LogObjects;
+using AutomationFramework_example_v1.Framework.SQL;
 using System.Collections.Generic;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
@@ -7,8 +8,8 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
     {
 #pragma warning disable 0169
 #pragma warning disable 0649
-        [ColumnMap("stepNumber")]
-        public int stepNumber;
+        [ColumnMap("id")]
+        public int id;
 
         [ColumnMap("controlName")]
         public string controlName;
@@ -33,6 +34,17 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             List<StepInfo> result = this.ExecuteStoredProcedure(cmd);
             cmd.Dispose();
             return result;
+        }
+
+        public void PopulateLogData()
+        {
+            TestLogData.DefaultStepValues();
+            TestLogData.stepNumber++;
+            TestLogData.controlName = controlName;
+            TestLogData.actionName = action;
+            TestLogData.keywordName = keyword;
+            TestLogData.stepParameters = parameters;
+            TestLogData.failCondition = failCondition;
         }
 #pragma warning restore 0169
 #pragma warning restore 0649

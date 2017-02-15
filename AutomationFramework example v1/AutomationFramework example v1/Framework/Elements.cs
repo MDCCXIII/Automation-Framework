@@ -44,39 +44,17 @@ namespace AutomationFramework_example_v1.Framework
             return Controller.driver.FindElement(Xpath, parameters, timeoutInSeconds);
         }
 
-        public static IWebElement GetElement(ControlInfo controlInfo, PathInfo pathInfo)
+        public static IWebElement GetElement(ControlInfo controlInfo, XpathInfo pathInfo)
         {
             IWebElement result = null;
-            if (pathInfo != null)
-            {
-                result = ByPathType(pathInfo.pathType, controlInfo, pathInfo, result);
-            }
-            else
-            {
-                if(controlInfo.identifyingNodeType != null)
-                {
-                    result = ByPathType(controlInfo.identifyingNodeType, controlInfo, pathInfo, result);
-                }
-                else
-                {
-                    throw new Exception("No path type provided for the control " + controlInfo.controlName + ".");
-                }
-            }
-            
-
-            return result;
-        }
-
-        private static IWebElement ByPathType(string pathType, ControlInfo controlInfo, PathInfo pathInfo, IWebElement result)
-        {
-            switch (pathType.ToLower())
+            switch (controlInfo.pathType.ToLower())
             {
                 case "css":
                     break;
                 case "xpath":
-                    if (controlInfo.identifyingNodeType != "" && controlInfo.identifyingParameterName != "" && controlInfo.identifyingParameterValue != "")
+                    if (controlInfo.xpathNodeType != "" && controlInfo.xpathParameterName != "" && controlInfo.xpathParameterValue != "")
                     {
-                        result = ByXpath(pathInfo.path, new string[] { controlInfo.identifyingNodeType, controlInfo.identifyingParameterName, controlInfo.identifyingParameterValue });
+                        result = ByXpath(pathInfo.path, new string[] { controlInfo.xpathNodeType, controlInfo.xpathParameterName, controlInfo.xpathParameterValue });
                     }
                     else
                     {
@@ -84,10 +62,10 @@ namespace AutomationFramework_example_v1.Framework
                     }
                     break;
                 case "id":
-                    result = ById(controlInfo.identifyingParameterValue);
+                    result = ById(controlInfo.xpathParameterValue);
                     break;
                 default:
-                    throw new Exception("The path type " + pathInfo.pathType + " is not a valid path type.");
+                    throw new Exception("The path type " + controlInfo.pathType + " is not a valid path type.");
             }
 
             return result;

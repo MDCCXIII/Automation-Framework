@@ -1,8 +1,9 @@
-﻿using AutomationFramework_example_v1.Framework.SQL;
+﻿using AutomationFramework_example_v1.Framework.Log.LogObjects;
+using AutomationFramework_example_v1.Framework.SQL;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
 {
-    class PathInfo : TableMap
+    class XpathInfo : TableMap
     {
 #pragma warning disable 0169
 #pragma warning disable 0649
@@ -15,20 +16,23 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
         [ColumnMap("path")]
         public string path;
 
-        [ColumnMap("pathType")]
-        public string pathType;
-
         [ColumnMap("projectName")]
         public string projectName;
 
-        public PathInfo Populate(string pathName, string projectName)
+        public XpathInfo Populate(string pathName, string projectName)
         {
-            Command cmd = new Command("getPathInformation");
+            Command cmd = new Command("getXpathInformation");
             cmd.AddParameter("pathName", pathName);
             cmd.AddParameter("projectName", projectName);
-            PathInfo result = this.ExecuteStoredProcedure(cmd)[0];
+            XpathInfo result = this.ExecuteStoredProcedure(cmd)[0];
             cmd.Dispose();
+            PopulateLogData();
             return result;
+        }
+
+        private void PopulateLogData()
+        {
+            TestLogData.xpath = path;
         }
 #pragma warning restore 0169
 #pragma warning restore 0649
