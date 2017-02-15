@@ -24,6 +24,12 @@ namespace AutomationFramework_example_v1.Framework
                 case "click":
                     Click();
                     break;
+                case "setstatechecked":
+                    SetCheckedState(true);
+                    break;
+                case "setstateunchecked":
+                    SetCheckedState(false);
+                    break;
                 case "inputtext":
                     SendKeys();
                     break;
@@ -32,6 +38,14 @@ namespace AutomationFramework_example_v1.Framework
                     break;
                 default:
                     throw new Exception("The Action " + actionName + " is not a valid action name.");
+            }
+        }
+
+        private static void SetCheckedState(bool v)
+        {
+            if (!control.GetAttribute("checked").Equals(v.ToString()))
+            { 
+                control.Click();
             }
         }
 
@@ -74,7 +88,7 @@ namespace AutomationFramework_example_v1.Framework
         {
             if(parameters == "")
             {
-                throw new Exception("No parameters provided for step number " + step.stepNumber);
+                throw new Exception("No parameters provided for step number " + step.id);
             }
 
             if(!control.TextEqual(parameters))

@@ -36,7 +36,7 @@ namespace AutomationFramework_example_v1.Framework
         {
             if(stepInfo.parameters.Split(',').Length < 2)
             {
-                throw new Exception("Invalid number of parameters supplied for Login keyword - Step: " + stepInfo.stepNumber);
+                throw new Exception("Invalid number of parameters supplied for Login keyword - Step: " + stepInfo.id);
             }
             string[] parameters = stepInfo.parameters.Split(',');
             string userName = parameters[0].Trim();
