@@ -32,16 +32,16 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             cmd.AddParameter("projectName", projectName);
             KeywordInfo result = this.ExecuteStoredProcedure(cmd)[0];
             cmd.Dispose();
-            PopulateLogData();
+            PopulateLogData(result);
             return result;
 
         }
 
-        private void PopulateLogData()
+        private void PopulateLogData(KeywordInfo keywordInfo)
         {
-            TestLogData.requiredKeywordParameters = requiredParameters;
-            TestLogData.optionalKeywordParameters = optionalParameters;
-            TestLogData.keywordDescription = description;
+            TestLogData.requiredKeywordParameters = keywordInfo.requiredParameters;
+            TestLogData.optionalKeywordParameters = keywordInfo.optionalParameters;
+            TestLogData.keywordDescription = keywordInfo.description;
         }
 #pragma warning restore 0169
 #pragma warning restore 0649

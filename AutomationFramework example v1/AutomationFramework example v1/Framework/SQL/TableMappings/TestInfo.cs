@@ -29,15 +29,15 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             cmd.AddParameter("projectName", projectName);
             TestInfo result = this.ExecuteStoredProcedure(cmd)[0];
             cmd.Dispose();
-            PopulateLogData();
+            PopulateLogData(result);
             return result;
 
         }
 
-        private void PopulateLogData()
+        private void PopulateLogData(TestInfo testInfo)
         {
-            TestLogData.testDescription = testDescription;
-            TestLogData.stepProcedureName = stepProcedureName;
+            TestLogData.testDescription = testInfo.testDescription;
+            TestLogData.stepProcedureName = testInfo.stepProcedureName;
         }
 #pragma warning restore 0169
 #pragma warning restore 0649

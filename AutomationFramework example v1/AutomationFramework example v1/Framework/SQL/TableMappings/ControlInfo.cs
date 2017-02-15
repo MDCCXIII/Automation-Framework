@@ -44,20 +44,20 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             cmd.AddParameter("projectName", projectName);
             ControlInfo result = this.ExecuteStoredProcedure(cmd)[0];
             cmd.Dispose();
-            PopulateLogData();
+            PopulateLogData(result);
             return result;
 
         }
 
-        private void PopulateLogData()
+        private void PopulateLogData(ControlInfo controlInfo)
         {
-            TestLogData.pathType = pathType;
-            TestLogData.xpathNodeType = xpathNodeType;
-            TestLogData.xpathParameterName = xpathParameterName;
-            TestLogData.xpathParameterValue = xpathParameterValue;
-            TestLogData.xpathName = xpathName;
-            TestLogData.controlId = controlId;
-            TestLogData.controlCss = controlCss;
+            TestLogData.pathType = controlInfo.pathType;
+            TestLogData.xpathNodeType = controlInfo.xpathNodeType;
+            TestLogData.xpathParameterName = controlInfo.xpathParameterName;
+            TestLogData.xpathParameterValue = controlInfo.xpathParameterValue;
+            TestLogData.xpathName = controlInfo.xpathName;
+            TestLogData.controlId = controlInfo.controlId;
+            TestLogData.controlCss = controlInfo.controlCss;
         }
 #pragma warning restore 0169
 #pragma warning restore 0649

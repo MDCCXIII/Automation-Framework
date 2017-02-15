@@ -13,7 +13,6 @@ namespace AutomationFramework_example_v1.Framework
         {
             Keywords.driver = driver;
             Keywords.stepInfo = stepInfo;
-
             LaunchKeyword(stepInfo.keyword);
         }
 
@@ -63,7 +62,7 @@ namespace AutomationFramework_example_v1.Framework
         {
             Wrapup();
             // Locate and click logout button
-            IWebElement LogoutButton = Elements.ById("f7_btnLogout");
+            IWebElement LogoutButton = Elements.ByXpath("//button[contains(@id, 'btnLogout')]");
             LogoutButton.Click();
             IWebElement ConfirmLogoutButton = Elements.ByXpath("//button[contains(@id, 'btnConfirm')]");
             ConfirmLogoutButton.Click();
@@ -86,8 +85,8 @@ namespace AutomationFramework_example_v1.Framework
                 // Locate and click confirm button
                 IWebElement ConfirmButton = Elements.ByXpath("//div[contains(@id, 'tfhPerspectives')][contains(@style, 'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//button[contains(@id, 'btnConfirm')]");
                 ConfirmButton.Click();
-                driver.Wait(2);
             }
+            driver.Wait(2);
         }
     }
 }

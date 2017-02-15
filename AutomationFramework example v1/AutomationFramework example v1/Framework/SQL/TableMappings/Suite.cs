@@ -32,14 +32,18 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
 
         }
 
-        public void PopulateLogData()
-        {
-            TestLogData.DefaultTestValues();
-            TestLogData.testName = testName;
-            TestLogData.testedBrowser = browser;
-            TestLogData.projectName = projectName;
-        }
+
 #pragma warning restore 0169
 #pragma warning restore 0649
+    }
+    static class suiteExtensions
+    {
+        internal static void PopulateLogData(this Suite suite)
+        {
+            TestLogData.DefaultTestValues();
+            TestLogData.testName = suite.testName;
+            TestLogData.testedBrowser = suite.browser;
+            TestLogData.projectName = suite.projectName;
+        }
     }
 }
