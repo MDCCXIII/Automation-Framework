@@ -36,17 +36,20 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             return result;
         }
 
-        public void PopulateLogData()
+#pragma warning restore 0169
+#pragma warning restore 0649
+    }
+    static class stepInfoExtensions
+    {
+        public static void PopulateLogData(this StepInfo stepInfo)
         {
             TestLogData.DefaultStepValues();
             TestLogData.stepNumber++;
-            TestLogData.controlName = controlName;
-            TestLogData.actionName = action;
-            TestLogData.keywordName = keyword;
-            TestLogData.stepParameters = parameters;
-            TestLogData.failCondition = failCondition;
+            TestLogData.controlName = stepInfo.controlName;
+            TestLogData.actionName = stepInfo.action;
+            TestLogData.keywordName = stepInfo.keyword;
+            TestLogData.stepParameters = stepInfo.parameters;
+            TestLogData.failCondition = stepInfo.failCondition;
         }
-#pragma warning restore 0169
-#pragma warning restore 0649
     }
 }

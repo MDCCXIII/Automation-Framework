@@ -11,15 +11,21 @@ namespace AutomationFramework_example_v1.Framework
     class Controller
     {
         public static IWebDriver driver;
+        static Stopwatch suiteTimer;
+        static Stopwatch testTimer;
+        static Stopwatch stepTimer;
+        static Stopwatch identificationTimer;
 
         public void StandardController()
         {
-            Stopwatch suiteTimer = NewTimer();
+            suiteTimer = NewTimer();
+            suiteTimer.Start();
             List<Suite> suiteInfo = new Suite().Populate();
 
             foreach (Suite test in suiteInfo)
             {
-                Stopwatch testTimer = NewTimer();
+                testTimer = NewTimer();
+                testTimer.Start();
                 if (test.execute)
                 {
                     test.PopulateLogData();
@@ -31,9 +37,7 @@ namespace AutomationFramework_example_v1.Framework
 
                     foreach (StepInfo step in steps)
                     {
-                        step.PopulateLogData();
-                        PreformStep(test, step);
-                        ConsoleLogger.Log(new TestLogData());
+                        ExecuteStep(test, step);
                     }
                 }
                 testTimer.Stop();
@@ -41,10 +45,40 @@ namespace AutomationFramework_example_v1.Framework
             suiteTimer.Stop();
         }
 
+        private static void ExecuteStep(Suite test, StepInfo step)
+        {
+            stepTimer = NewTimer();
+            identificationTimer = NewTimer();
+            try
+            {
+                step.PopulateLogData();
+                PreformStep(test, step);
+                TestLogData.stepResult = "Pass";
+            }
+            catch (Exception ex)
+            {
+                TestLogData.testResult = "Fail";
+                TestLogData.stepResult = "Fail";
+                TestLogData.exceptionMessage = ex.Message;
+                if (step.failCondition.ToLower().Equals(""))
+                {
+                    Environment.Exit(ex.HResult);
+                }
+            }
+            finally
+            {
+                TestLogData.suiteExecutionTime = suiteTimer.Elapsed.ToString();
+                TestLogData.testExecutionTime = testTimer.Elapsed.ToString();
+                TestLogData.stepExecutionTime = stepTimer.Elapsed.ToString();
+                TestLogData.controlIdentificationTime = identificationTimer.Elapsed.ToString();
+                ConsoleLogger.Log(new TestLogData());
+            }
+        }
+
         private static Stopwatch NewTimer()
         {
             Stopwatch result = new Stopwatch();
-            result.Start();
+            result.Reset();
             return result;
         }
 
@@ -63,19 +97,17 @@ namespace AutomationFramework_example_v1.Framework
 
         private static void PreformStep(Suite test, StepInfo step)
         {
-            Stopwatch stepTimer = NewTimer();
+            stepTimer.Start();
             ControlInfo controlInfo = null;
             XpathInfo pathInfo = null;
             ActionInfo actionInfo = null;
             KeywordInfo keywordInfo = null;
 
             PopulateStepInformation(test, step, ref controlInfo, ref pathInfo, ref actionInfo, ref keywordInfo);
-
-            Stopwatch actionTimer = NewTimer();
+            
             ExecuteKeyword(step, keywordInfo);
 
             ExecuteAction(test, step, controlInfo, pathInfo, actionInfo);
-            actionTimer.Stop();
             stepTimer.Stop();
         }
 
@@ -114,8 +146,10 @@ namespace AutomationFramework_example_v1.Framework
             {
                 if (controlInfo != null)
                 {
-                    Stopwatch identificationTimer = NewTimer();
+                    identificationTimer.Start();
                     IWebElement control = Elements.GetElement(controlInfo, pathInfo);
+
+                    PopulateIdentifiedControlInfo(control);
                     identificationTimer.Stop();
                     control.Execute(step);
                 }
@@ -124,6 +158,17 @@ namespace AutomationFramework_example_v1.Framework
                     throw new Exception("Test: " + test.testName + "Error at step number: " + step.id + " - A control name must be provided for an action to be applied to.");
                 }
             }
+        }
+
+        private static void PopulateIdentifiedControlInfo(IWebElement control)
+        {
+            TestLogData.identifiedControlTagName = control.TagName;
+            TestLogData.identifiedControlId = control.GetAttribute("id");
+            TestLogData.identifiedControlName = control.GetAttribute("class");
+            TestLogData.identifiedControlText = control.Text;
+            TestLogData.identifiedControlIsDisplayed = control.Displayed;
+            TestLogData.identifiedControlIsSelected = control.Selected;
+            TestLogData.identifiedControlIsEnabled = control.Enabled;
         }
     }
 }

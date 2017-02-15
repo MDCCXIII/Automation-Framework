@@ -28,15 +28,15 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             cmd.AddParameter("actionName", actionName);
             ActionInfo result = this.ExecuteStoredProcedure(cmd)[0];
             cmd.Dispose();
-            PopulateLogData();
+            PopulateLogData(result);
             return result;
         }
 
-        private void PopulateLogData()
+        private void PopulateLogData(ActionInfo actionInfo)
         {
-            TestLogData.requiredActionParameters = requiredParameters;
-            TestLogData.optionalActionParameters = optionalParameters;
-            TestLogData.actionDescription = actionDescription;
+            TestLogData.requiredActionParameters = actionInfo.requiredParameters;
+            TestLogData.optionalActionParameters = actionInfo.optionalParameters;
+            TestLogData.actionDescription = actionInfo.actionDescription;
         }
 #pragma warning restore 0169
 #pragma warning restore 0649
