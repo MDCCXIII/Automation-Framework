@@ -26,13 +26,13 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             cmd.AddParameter("projectName", projectName);
             XpathInfo result = this.ExecuteStoredProcedure(cmd)[0];
             cmd.Dispose();
-            PopulateLogData();
+            PopulateLogData(result);
             return result;
         }
 
-        private void PopulateLogData()
+        private void PopulateLogData(XpathInfo xpathInfo)
         {
-            TestLogData.xpath = path;
+            TestLogData.xpath = xpathInfo.path;
         }
 #pragma warning restore 0169
 #pragma warning restore 0649
