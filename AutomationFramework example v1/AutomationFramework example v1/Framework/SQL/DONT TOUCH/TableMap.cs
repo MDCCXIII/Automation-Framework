@@ -39,6 +39,10 @@ namespace AutomationFramework_example_v1.Framework.SQL
                     {
                         f.SetValue(c, val.ToString());
                     }
+                    else if (f.GetType().ToString().Equals("String"))
+                    {
+                        f.SetValue(c, val.ToString());
+                    }
                     else
                     {
                         f.SetValue(c, val);

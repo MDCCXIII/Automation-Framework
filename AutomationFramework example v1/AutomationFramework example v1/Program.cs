@@ -9,14 +9,15 @@ namespace AutomationFramework_example_v1
         /// </summary>
        // public const string DefaultConnectionStringName = "Tony'sLocalConnection";
         public const string DefaultConnectionStringName = "SharedServer";
+        public const int DefaultController = 0;
 
         static void Main(string[] args)
         {
-            Controller controller = new Controller();
+            
             //use args to set up framework properties like debugging and show console ect.
 
             //call the appropriate controller method, this may also be controled by argument
-            controller.StandardController();
+            new Controller(DefaultController);
             
             //the command line command structure to call the framework would need to be well documented
         }
