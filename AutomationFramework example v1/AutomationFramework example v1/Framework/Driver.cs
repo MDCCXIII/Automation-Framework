@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Support.Events;
 using System;
 
 namespace AutomationFramework_example_v1.Framework
@@ -15,14 +16,14 @@ namespace AutomationFramework_example_v1.Framework
             switch (BrowserName.ToLower())
             {
                 case "chrome":
-                    result = new ChromeDriver();
+                    result = new EventFiringWebDriver(new ChromeDriver());
                     break;
                 case "ie" :
                     var options = new InternetExplorerOptions{ IgnoreZoomLevel = true };
-                    result = new InternetExplorerDriver(options);
+                    result = new EventFiringWebDriver(new InternetExplorerDriver(options));
                     break;
                 case "firefox":
-                    result = new FirefoxDriver();
+                    result = new EventFiringWebDriver(new FirefoxDriver());
                     break;
                 default:
                     throw new Exception("Bad Driver Identifier: " + BrowserName + ".");

@@ -36,9 +36,17 @@ namespace AutomationFramework_example_v1.Framework
                 case "verifytextequals":
                     VerifyTextEqual(step.parameters);
                     break;
+                case "selectoption":
+                    SelectOptionByText(step.parameters);
+                    break;
                 default:
                     throw new Exception("The Action " + actionName + " is not a valid action name.");
             }
+        }
+
+        private static void SelectOptionByText(string parameters)
+        {
+            control.SelectOptionByText(parameters);
         }
 
         private static void SetCheckedState(bool v)
