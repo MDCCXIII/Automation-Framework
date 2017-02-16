@@ -16,7 +16,27 @@ namespace AutomationFramework_example_v1.Framework
         static Stopwatch stepTimer;
         static Stopwatch identificationTimer;
 
-        public void StandardController()
+        public Controller(int controllerOption)
+        {
+            try
+            {
+                switch (controllerOption)
+                {
+                    case 0:
+                        StandardController();
+                        break;
+                    default:
+                        throw new Exception("Invalid controller option.");
+                }
+            }
+            catch(Exception ex)
+            {
+                ConsoleLogger.Log();
+                ConsoleLogger.Log(ex);
+            }
+        }
+
+        private void StandardController()
         {
             suiteTimer = NewTimer();
             suiteTimer.Start();
@@ -24,25 +44,28 @@ namespace AutomationFramework_example_v1.Framework
 
             foreach (Suite test in suiteInfo)
             {
-                testTimer = NewTimer();
-                testTimer.Start();
                 if (test.execute)
                 {
+                    testTimer = NewTimer();
+                    testTimer.Start();
                     test.PopulateLogData();
                     ProjectInfo projectInfo;
                     List<StepInfo> steps;
                     PopulateTestInfo(test, out projectInfo, out steps);
-
+                    ConsoleLogger.LogTestInfo();
                     LaunchProject(test, projectInfo);
 
                     foreach (StepInfo step in steps)
                     {
                         ExecuteStep(test, step);
                     }
+                    testTimer.Stop();
+                    ConsoleLogger.LogTestResults();
+                    ConsoleLogger.Log();
                 }
-                testTimer.Stop();
             }
             suiteTimer.Stop();
+            
         }
 
         private static void ExecuteStep(Suite test, StepInfo step)
@@ -71,7 +94,7 @@ namespace AutomationFramework_example_v1.Framework
                 TestLogData.testExecutionTime = testTimer.Elapsed.ToString();
                 TestLogData.stepExecutionTime = stepTimer.Elapsed.ToString();
                 TestLogData.controlIdentificationTime = identificationTimer.Elapsed.ToString();
-                ConsoleLogger.Log(new TestLogData());
+                ConsoleLogger.LogStepResult();
             }
         }
 
@@ -104,7 +127,7 @@ namespace AutomationFramework_example_v1.Framework
             KeywordInfo keywordInfo = null;
 
             PopulateStepInformation(test, step, ref controlInfo, ref pathInfo, ref actionInfo, ref keywordInfo);
-            
+            ConsoleLogger.LogStepInfo();
             ExecuteKeyword(step, keywordInfo);
 
             ExecuteAction(test, step, controlInfo, pathInfo, actionInfo);
