@@ -18,8 +18,7 @@ namespace AutomationFramework_example_v1.Framework
 
         public Controller(int controllerOption)
         {
-            try
-            {
+           
                 switch (controllerOption)
                 {
                     case 0:
@@ -28,12 +27,7 @@ namespace AutomationFramework_example_v1.Framework
                     default:
                         throw new Exception("Invalid controller option.");
                 }
-            }
-            catch(Exception ex)
-            {
-                ConsoleLogger.Log();
-                ConsoleLogger.Log(ex);
-            }
+            
         }
 
         private void StandardController()
@@ -85,7 +79,7 @@ namespace AutomationFramework_example_v1.Framework
                 TestLogData.exceptionMessage = ex.Message;
                 if (step.failCondition.ToLower().Equals(""))
                 {
-                    Environment.Exit(ex.HResult);
+                    throw ex;
                 }
             }
             finally

@@ -33,7 +33,7 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
 
         internal static void Log(Exception ex)
         {
-            Debug.WriteLine(ex);
+            sb.AppendLine(ex.ToString());
         }
 
         public static void LogStepInfo()
