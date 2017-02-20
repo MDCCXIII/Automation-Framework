@@ -57,6 +57,7 @@ namespace AutomationFramework_example_v1.Framework
                     testTimer.Stop();
                     ConsoleLogger.LogTestResults();
                     ConsoleLogger.Log();
+                    driver.Close();
                 }
             }
             suiteTimer.Stop();
@@ -184,6 +185,12 @@ namespace AutomationFramework_example_v1.Framework
 
         private static bool CheckFlags(ref StepInfo step, ControlInfo controlInfo, XpathInfo pathInfo)
         {
+            if (step.parameters.Contains("debug"))
+            {
+                step.parameters.Replace("debug", "").Trim(' ').Trim(',').Trim(' ');
+                Debug.WriteLine("debug step: " + step.id);
+            }
+
             if (step.parameters.Contains("ifPresent"))
             {
                 step.parameters.Replace("ifPresent", "").Trim(' ').Trim(',').Trim(' ');
@@ -197,15 +204,8 @@ namespace AutomationFramework_example_v1.Framework
                     return false;
                 }
             }
-            else
-            {
-                if (step.parameters.Contains("debug"))
-                {
-                    step.parameters.Replace("debug", "").Trim(' ').Trim(',').Trim(' ');
-                    Debug.WriteLine("debug step: " + step.id);
-                }
-                return true;
-            }
+
+            return true;
         }
 
         private static void PopulateIdentifiedControlInfo(IWebElement control)

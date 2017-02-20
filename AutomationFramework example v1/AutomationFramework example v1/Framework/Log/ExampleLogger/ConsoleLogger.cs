@@ -184,10 +184,11 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
                 Directory.CreateDirectory(LogPath);
             if (!File.Exists(FileName))
                 File.Create(FileName);
-            StreamWriter sw = new StreamWriter(LogPath + FileName);
-            sw.WriteLine(sb);
-            sw.Close();
-            System.Diagnostics.Process.Start(LogPath);
+            using(StreamWriter sw = File.AppendText(LogPath + FileName))
+            {
+                sw.WriteLine(sb);
+            }
+            Process.Start(LogPath);
         }
     }
 }
