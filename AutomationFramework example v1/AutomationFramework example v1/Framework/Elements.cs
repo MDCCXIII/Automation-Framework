@@ -62,7 +62,34 @@ namespace AutomationFramework_example_v1.Framework
                     }
                     break;
                 case "id":
-                    result = ById(controlInfo.xpathParameterValue);
+                    result = ById(controlInfo.controlId);
+                    break;
+                default:
+                    throw new Exception("The path type " + controlInfo.pathType + " is not a valid path type.");
+            }
+
+            return result;
+        }
+        public static By GetIdentifier(ControlInfo controlInfo, XpathInfo pathInfo)
+        {
+            By result = null;
+            switch (controlInfo.pathType.ToLower())
+            {
+                case "css":
+                    result = By.CssSelector(controlInfo.controlCss);
+                    break;
+                case "xpath":
+                    if (controlInfo.xpathNodeType != "" && controlInfo.xpathParameterName != "" && controlInfo.xpathParameterValue != "")
+                    {
+                        result = By.XPath(string.Format(pathInfo.path, new string[] { controlInfo.xpathNodeType, controlInfo.xpathParameterName, controlInfo.xpathParameterValue }));
+                    }
+                    else
+                    {
+                        result = By.XPath(pathInfo.path);
+                    }
+                    break;
+                case "id":
+                    result = By.Id(controlInfo.controlId);
                     break;
                 default:
                     throw new Exception("The path type " + controlInfo.pathType + " is not a valid path type.");
