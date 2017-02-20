@@ -33,14 +33,32 @@ namespace AutomationFramework_example_v1.Framework
                 case "inputtext":
                     SendKeys();
                     break;
+                case "inputdate":
+                    InputDate();
+                    break;
                 case "verifytextequals":
                     VerifyTextEqual(step.parameters);
                     break;
                 case "selectoptionbytext":
                     SelectOptionByText(step.parameters);
                     break;
+                case "verifytextcontains":
+                    VerifyTextContains(step.parameters);
+                    break;
                 default:
                     throw new Exception("The Action " + actionName + " is not a valid action name.");
+            }
+        }
+
+        private static void VerifyTextContains(string parameters)
+        {
+            if (parameters == "")
+            {
+                throw new Exception("No parameters provided for step number " + step.id);
+            }
+            if (!control.TextContains(parameters))
+            {
+                throw new Exception("Validation Error: the control " + step.controlName + "'s text did not contain \"" + parameters + "\".");
             }
         }
 
@@ -67,6 +85,18 @@ namespace AutomationFramework_example_v1.Framework
                 step.parameters = step.parameters.Trim().Trim(',').Trim();
             }
             control.SendKeys(step.parameters);
+        }
+
+        private static void InputDate()
+        {
+            if (step.parameters.ToLower().Contains("clearbeforesending"))
+            {
+                control.Click();
+                control.Clear();
+                step.parameters = step.parameters.Replace("ClearBeforeSending", "");
+                step.parameters = step.parameters.Trim().Trim(',').Trim();
+            }
+            control.SendKeys(step.parameters + Keys.Return);
         }
 
         private static void Click()
@@ -104,5 +134,7 @@ namespace AutomationFramework_example_v1.Framework
                 throw new Exception("Validation Error: the control " + step.controlName + "'s text did not equal \"" + parameters +"\".");
             }
         }
+       
     }
+    
 }
