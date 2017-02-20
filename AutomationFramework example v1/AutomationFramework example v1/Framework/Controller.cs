@@ -45,13 +45,14 @@ namespace AutomationFramework_example_v1.Framework
                     test.PopulateLogData();
                     ProjectInfo projectInfo;
                     List<StepInfo> steps;
-                    PopulateTestInfo(test, out projectInfo, out steps);
+                    TestInfo testInfo;
+                    PopulateTestInfo(test, out testInfo, out projectInfo, out steps);
                     ConsoleLogger.LogTestInfo();
                     LaunchProject(test, projectInfo);
 
                     foreach (StepInfo step in steps)
                     {
-                        ExecuteStep(test, step);
+                        ExecuteStep(testInfo, projectInfo, test, step);
                     }
                     testTimer.Stop();
                     ConsoleLogger.LogTestResults();
@@ -62,14 +63,14 @@ namespace AutomationFramework_example_v1.Framework
             
         }
 
-        private static void ExecuteStep(Suite test, StepInfo step)
+        private static void ExecuteStep(TestInfo testInfo, ProjectInfo projectInfo, Suite test, StepInfo step)
         {
             stepTimer = NewTimer();
             identificationTimer = NewTimer();
             try
             {
                 step.PopulateLogData();
-                PreformStep(test, step);
+                PreformStep(testInfo, projectInfo, test, step);
                 TestLogData.stepResult = "Pass";
             }
             catch (Exception ex)
@@ -105,14 +106,14 @@ namespace AutomationFramework_example_v1.Framework
             driver.setUrl(projectInfo);
         }
 
-        private static void PopulateTestInfo(Suite test, out ProjectInfo projectInfo, out List<StepInfo> steps)
+        private static void PopulateTestInfo(Suite test, out TestInfo testInfo, out ProjectInfo projectInfo, out List<StepInfo> steps)
         {
             projectInfo = new ProjectInfo().Populate(test.projectName);
-            TestInfo testInfo = new TestInfo().Populate(test.testName, test.projectName);
+            testInfo = new TestInfo().Populate(test.testName, test.projectName);
             steps = new StepInfo().Populate(testInfo.stepProcedureName);
         }
 
-        private static void PreformStep(Suite test, StepInfo step)
+        public static void PreformStep(TestInfo testInfo, ProjectInfo projectInfo, Suite test, StepInfo step)
         {
             stepTimer.Start();
             ControlInfo controlInfo = null;
@@ -122,7 +123,7 @@ namespace AutomationFramework_example_v1.Framework
 
             PopulateStepInformation(test, step, ref controlInfo, ref pathInfo, ref actionInfo, ref keywordInfo);
             ConsoleLogger.LogStepInfo();
-            ExecuteKeyword(step, keywordInfo);
+            ExecuteKeyword(testInfo, projectInfo, test, step, keywordInfo);
 
             ExecuteAction(test, step, controlInfo, pathInfo, actionInfo);
             stepTimer.Stop();
@@ -149,11 +150,11 @@ namespace AutomationFramework_example_v1.Framework
             }
         }
 
-        private static void ExecuteKeyword(StepInfo step, KeywordInfo keywordInfo)
+        private static void ExecuteKeyword(TestInfo testInfo, ProjectInfo projectInfo, Suite suite, StepInfo step, KeywordInfo keywordInfo)
         {
             if (keywordInfo != null)
             {
-                driver.Execute(step);
+                driver.Execute(testInfo, projectInfo, suite, step);
             }
         }
 
@@ -164,16 +165,46 @@ namespace AutomationFramework_example_v1.Framework
                 if (controlInfo != null)
                 {
                     identificationTimer.Start();
-                    IWebElement control = Elements.GetElement(controlInfo, pathInfo);
+                    if (CheckFlags(ref step, controlInfo, pathInfo))
+                    {
+                        IWebElement control = Elements.GetElement(controlInfo, pathInfo);
 
-                    PopulateIdentifiedControlInfo(control);
-                    identificationTimer.Stop();
-                    control.Execute(step);
+                        PopulateIdentifiedControlInfo(control);
+                        identificationTimer.Stop();
+                        control.Execute(step);
+                    }
+
                 }
                 else
                 {
                     throw new Exception("Test: " + test.testName + "Error at step number: " + step.id + " - A control name must be provided for an action to be applied to.");
                 }
+            }
+        }
+
+        private static bool CheckFlags(ref StepInfo step, ControlInfo controlInfo, XpathInfo pathInfo)
+        {
+            if (step.parameters.Contains("ifPresent"))
+            {
+                step.parameters.Replace("ifPresent", "").Trim(' ').Trim(',').Trim(' ');
+                if (driver.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo)))
+                {
+                    return true;
+                }
+                else
+                {
+                    TestLogData.warning = "The control was not present.";
+                    return false;
+                }
+            }
+            else
+            {
+                if (step.parameters.Contains("debug"))
+                {
+                    step.parameters.Replace("debug", "").Trim(' ').Trim(',').Trim(' ');
+                    Debug.WriteLine("debug step: " + step.id);
+                }
+                return true;
             }
         }
 

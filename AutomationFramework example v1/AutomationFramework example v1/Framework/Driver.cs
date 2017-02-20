@@ -4,12 +4,14 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.Events;
+using OpenQA.Selenium.Support.UI;
 using System;
 
 namespace AutomationFramework_example_v1.Framework
 {
     static class Driver
     {
+        public static WebDriverWait wait = null;
         public static IWebDriver GetDriver(string BrowserName)
         {
             IWebDriver result = null;
@@ -32,6 +34,7 @@ namespace AutomationFramework_example_v1.Framework
             result.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
             result.Manage().Window.Maximize();
 
+            wait = new WebDriverWait(result, new TimeSpan(0,0,10));
             return result;
         }
 

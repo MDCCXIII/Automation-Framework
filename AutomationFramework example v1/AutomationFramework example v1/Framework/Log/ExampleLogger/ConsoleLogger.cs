@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -39,6 +40,10 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
         public static void LogStepInfo()
         {
             sb.AppendLine("Step Number: " + TestLogData.stepNumber);
+            if (!TestLogData.warning.Equals(""))
+            {
+                sb.AppendLine("WARNING: " + TestLogData.warning);
+            }
             BuildKeywordInfo();
             BuildActionInfo();
             BuildStepParameterInfo();
@@ -95,7 +100,16 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
         {
             if (!TestLogData.actionName.Equals(""))
             {
-                sb.AppendLine("Action Name: " + TestLogData.actionName + " Required Parameters: " + TestLogData.requiredActionParameters + " Optional Parameters: " + TestLogData.optionalActionParameters);
+                sb.Append("Action Name: " + TestLogData.actionName);
+                if (!TestLogData.requiredActionParameters.Equals(""))
+                {
+                    sb.Append(" Required Parameters: " + TestLogData.requiredActionParameters);
+                }
+                if (!TestLogData.optionalActionParameters.Equals(""))
+                {
+                    sb.Append(" Optional Parameters: " + TestLogData.optionalActionParameters);
+                }
+                sb.AppendLine();
                 sb.AppendLine("Action Description: " + TestLogData.actionDescription);
             }
         }
@@ -104,7 +118,16 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
         {
             if (!TestLogData.keywordName.Equals(""))
             {
-                sb.AppendLine("Keyword Name: " + TestLogData.keywordName + " Required Parameters: " + TestLogData.requiredKeywordParameters + " Optional Parameters: " + TestLogData.optionalKeywordParameters);
+                sb.Append("Keyword Name: " + TestLogData.keywordName);
+                if (!TestLogData.requiredKeywordParameters.Equals(""))
+                {
+                    sb.Append(" Required Parameters: " + TestLogData.requiredKeywordParameters);
+                }
+                if (!TestLogData.optionalKeywordParameters.Equals(""))
+                {
+                    sb.Append(" Optional Parameters: " + TestLogData.optionalKeywordParameters);
+                }
+                sb.AppendLine();
                 sb.AppendLine("Keyword Description: " + TestLogData.keywordDescription);
             }
         }
@@ -149,9 +172,22 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
             sb.Replace("%#ExecutionTime#%", "Test Completed: " + DateTime.Now.TimeOfDay.ToString() + " - " + DateTime.Now.Date.ToString("MM/dd/yyyy") + " Total Test Execution Time: " + TestLogData.testExecutionTime);
         }
 
+        public static string FileName = "";
         public static void Log(string logMessage)
         {
             Debug.WriteLine(logMessage);
+            
+            string LogPath = Environment.CurrentDirectory + "\\Logs\\";
+            if(FileName.Equals(""))
+                FileName = TestLogData.executionStartTime.Replace(":", "") + TestLogData.executionDate.Replace("/", "") + ".txt";
+            if (!Directory.Exists(LogPath))
+                Directory.CreateDirectory(LogPath);
+            if (!File.Exists(FileName))
+                File.Create(FileName);
+            StreamWriter sw = new StreamWriter(LogPath + FileName);
+            sw.WriteLine(sb);
+            sw.Close();
+            System.Diagnostics.Process.Start(LogPath);
         }
     }
 }
