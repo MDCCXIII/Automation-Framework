@@ -55,6 +55,7 @@ namespace AutomationFramework_example_v1.Framework.Log.LogObjects
         
         public static string failCondition = "";
         public static string exceptionMessage = "";
+        public static Exception ex = null;
         
         public static void DefaultTestValues()
         {
@@ -102,6 +103,7 @@ namespace AutomationFramework_example_v1.Framework.Log.LogObjects
             exceptionMessage = "";
             stepExecutionTime = "";
             controlIdentificationTime = "";
-        }
+            ex = null;
+    }
     }
 }
