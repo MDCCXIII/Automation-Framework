@@ -3,3 +3,7 @@
 ################################################################################
 
 /AutomationFramework example v1/AutomationFramework example v1/bin/Debug
+/AutomationFramework example v1/AutomationFramework example v1/obj/Debug
+/AutomationFramework example v1/.vs/AutomationFramework example v1/v14
+.suo
+.gitignore

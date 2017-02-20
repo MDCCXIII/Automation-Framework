@@ -39,6 +39,10 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
         public static void LogStepInfo()
         {
             sb.AppendLine("Step Number: " + TestLogData.stepNumber);
+            if (!TestLogData.warning.Equals(""))
+            {
+                sb.AppendLine("WARNING: " + TestLogData.warning);
+            }
             BuildKeywordInfo();
             BuildActionInfo();
             BuildStepParameterInfo();
@@ -95,7 +99,16 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
         {
             if (!TestLogData.actionName.Equals(""))
             {
-                sb.AppendLine("Action Name: " + TestLogData.actionName + " Required Parameters: " + TestLogData.requiredActionParameters + " Optional Parameters: " + TestLogData.optionalActionParameters);
+                sb.Append("Action Name: " + TestLogData.actionName);
+                if (!TestLogData.requiredActionParameters.Equals(""))
+                {
+                    sb.Append(" Required Parameters: " + TestLogData.requiredActionParameters);
+                }
+                if (!TestLogData.optionalActionParameters.Equals(""))
+                {
+                    sb.Append(" Optional Parameters: " + TestLogData.optionalActionParameters);
+                }
+                sb.AppendLine();
                 sb.AppendLine("Action Description: " + TestLogData.actionDescription);
             }
         }
@@ -104,7 +117,16 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
         {
             if (!TestLogData.keywordName.Equals(""))
             {
-                sb.AppendLine("Keyword Name: " + TestLogData.keywordName + " Required Parameters: " + TestLogData.requiredKeywordParameters + " Optional Parameters: " + TestLogData.optionalKeywordParameters);
+                sb.Append("Keyword Name: " + TestLogData.keywordName);
+                if (!TestLogData.requiredKeywordParameters.Equals(""))
+                {
+                    sb.Append(" Required Parameters: " + TestLogData.requiredKeywordParameters);
+                }
+                if (!TestLogData.optionalKeywordParameters.Equals(""))
+                {
+                    sb.Append(" Optional Parameters: " + TestLogData.optionalKeywordParameters);
+                }
+                sb.AppendLine();
                 sb.AppendLine("Keyword Description: " + TestLogData.keywordDescription);
             }
         }

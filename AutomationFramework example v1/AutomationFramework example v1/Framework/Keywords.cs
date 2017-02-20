@@ -7,12 +7,18 @@ namespace AutomationFramework_example_v1.Framework
     static class Keywords
     {
         private static IWebDriver driver;
+        private static ProjectInfo projectInfo;
         private static StepInfo stepInfo;
+        private static Suite suite;
+        private static TestInfo testInfo;
 
-        public static void Execute(this IWebDriver driver, StepInfo stepInfo)
+        public static void Execute(this IWebDriver driver, TestInfo testInfo, ProjectInfo projectInfo, Suite suite, StepInfo stepInfo)
         {
             Keywords.driver = driver;
             Keywords.stepInfo = stepInfo;
+            Keywords.testInfo = testInfo;
+            Keywords.projectInfo = projectInfo;
+            Keywords.suite = suite;
             LaunchKeyword(stepInfo.keyword);
         }
 
@@ -31,9 +37,16 @@ namespace AutomationFramework_example_v1.Framework
             }
         }
 
+        private static void Execute(this StepInfo currentStep)
+        {
+            currentStep.PopulateLogData();
+            Controller.PreformStep(testInfo, projectInfo, suite, currentStep);
+        }
+
         private static void Login()
         {
-            if(stepInfo.parameters.Split(',').Length < 2)
+            StepInfo currentStep = null;
+            if (stepInfo.parameters.Split(',').Length < 2)
             {
                 throw new Exception("Invalid number of parameters supplied for Login keyword - Step: " + stepInfo.id);
             }
@@ -41,22 +54,35 @@ namespace AutomationFramework_example_v1.Framework
             string userName = parameters[0].Trim();
             string password = parameters[1].Trim();
 
-            IWebElement Text_UserName = Elements.ById("userName");
-            Text_UserName.SendKeys(userName);
-            IWebElement Text_Password = Elements.ById("password");
-            Text_Password.SendKeys(password);
+            currentStep = new StepInfo();
+            currentStep.controlName = "inputUserName";
+            currentStep.action = Actions.INPUTTEXT;
+            currentStep.parameters = userName;
+            currentStep.Execute();
+
+            currentStep = new StepInfo();
+            currentStep.controlName = "inputPassword";
+            currentStep.action = Actions.INPUTTEXT;
+            currentStep.parameters = password;
+            currentStep.Execute();
+
             driver.Wait(1);
-            IWebElement Button_Login = Elements.ById("loginButton");
-            Button_Login.Click();
-            By btnContinue = By.Id("f5_btnContinue");
-            // Work around if another user is login
-            if (driver.IsElementPresent(btnContinue))
-            {
-                IWebElement Button_Continue = Elements.ById(btnContinue);
-                Button_Continue.Click();
-            }
+
+            currentStep = new StepInfo();
+            currentStep.controlName = "buttonLogin";
+            currentStep.action = Actions.CLICK;
+            currentStep.Execute();
+
+            currentStep = new StepInfo();
+            currentStep.controlName = "loginButtonContinue";
+            currentStep.action = Actions.CLICK;
+            currentStep.parameters = "ifPresent";
+            currentStep.Execute();
+
             driver.Wait(10);
         }
+
+        
 
         private static void Logout()
         {
@@ -73,8 +99,13 @@ namespace AutomationFramework_example_v1.Framework
             By buttonWrapup = By.XPath("//button[contains(@id, 'btnWrapup') and not(contains(@id, 'info'))]");
             if (driver.IsElementPresent(buttonWrapup))
             {
-                IWebElement WrapupButton = Elements.ByXpath(buttonWrapup);
-                WrapupButton.Click();
+
+                StepInfo currentStep = new StepInfo();
+                currentStep.controlName = "identifyPersonButtonWrapup";
+                currentStep.action = Actions.CLICK;
+                currentStep.parameters = "ifPresent";
+                currentStep.Execute();
+
                 // Locate and select Disposition Select option X-Research
                 IWebElement DispositionSelect = Elements.ByXpath("//div[contains(@id, 'tfhPerspectives')][contains(@style, 'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//select[contains(@id, 'optReasonCodes')]");
                 DispositionSelect.SelectOptionByText("X-Research");
