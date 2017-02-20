@@ -36,7 +36,7 @@ namespace AutomationFramework_example_v1.Framework
                 case "verifytextequals":
                     VerifyTextEqual(step.parameters);
                     break;
-                case "selectoption":
+                case "selectoptionbytext":
                     SelectOptionByText(step.parameters);
                     break;
                 default:

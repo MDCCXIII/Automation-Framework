@@ -1,4 +1,6 @@
 ﻿using AutomationFramework_example_v1.Framework;
+using AutomationFramework_example_v1.Framework.Log.ExampleLogger;
+using System;
 
 namespace AutomationFramework_example_v1
 {
@@ -13,12 +15,20 @@ namespace AutomationFramework_example_v1
 
         static void Main(string[] args)
         {
-            
-            //use args to set up framework properties like debugging and show console ect.
 
-            //call the appropriate controller method, this may also be controled by argument
-            new Controller(DefaultController);
-            
+            //use args to set up framework properties like debugging and show console ect.
+            try
+            {
+                //call the appropriate controller method, this may also be controled by argument
+                new Controller(DefaultController);
+            }
+            catch (Exception ex)
+            {
+                ConsoleLogger.LogTestResults();
+                ConsoleLogger.Log(ex);
+                ConsoleLogger.Log();
+                
+            }
             //the command line command structure to call the framework would need to be well documented
         }
     }
