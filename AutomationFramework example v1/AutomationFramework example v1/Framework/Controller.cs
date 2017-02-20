@@ -165,23 +165,7 @@ namespace AutomationFramework_example_v1.Framework
                 if (controlInfo != null)
                 {
                     identificationTimer.Start();
-                    if (step.parameters.Contains("ifPresent"))
-                    {
-                        step.parameters.Replace("ifPresent", "").Trim(' ').Trim(',').Trim(' ');
-                        if (driver.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo)))
-                        {
-                            IWebElement control = Elements.GetElement(controlInfo, pathInfo);
-
-                            PopulateIdentifiedControlInfo(control);
-                            identificationTimer.Stop();
-                            control.Execute(step);
-                        }
-                        else
-                        {
-                            TestLogData.warning = "The control was not present.";
-                        }
-                    }
-                    else
+                    if (CheckFlags(ref step, controlInfo, pathInfo))
                     {
                         IWebElement control = Elements.GetElement(controlInfo, pathInfo);
 
@@ -189,12 +173,38 @@ namespace AutomationFramework_example_v1.Framework
                         identificationTimer.Stop();
                         control.Execute(step);
                     }
-                    
+
                 }
                 else
                 {
                     throw new Exception("Test: " + test.testName + "Error at step number: " + step.id + " - A control name must be provided for an action to be applied to.");
                 }
+            }
+        }
+
+        private static bool CheckFlags(ref StepInfo step, ControlInfo controlInfo, XpathInfo pathInfo)
+        {
+            if (step.parameters.Contains("ifPresent"))
+            {
+                step.parameters.Replace("ifPresent", "").Trim(' ').Trim(',').Trim(' ');
+                if (driver.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo)))
+                {
+                    return true;
+                }
+                else
+                {
+                    TestLogData.warning = "The control was not present.";
+                    return false;
+                }
+            }
+            else
+            {
+                if (step.parameters.Contains("debug"))
+                {
+                    step.parameters.Replace("debug", "").Trim(' ').Trim(',').Trim(' ');
+                    Debug.WriteLine("debug step: " + step.id);
+                }
+                return true;
             }
         }
 

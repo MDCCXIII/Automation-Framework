@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -171,9 +172,22 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
             sb.Replace("%#ExecutionTime#%", "Test Completed: " + DateTime.Now.TimeOfDay.ToString() + " - " + DateTime.Now.Date.ToString("MM/dd/yyyy") + " Total Test Execution Time: " + TestLogData.testExecutionTime);
         }
 
+        public static string FileName = "";
         public static void Log(string logMessage)
         {
             Debug.WriteLine(logMessage);
+            
+            string LogPath = Environment.CurrentDirectory + "\\Logs\\";
+            if(FileName.Equals(""))
+                FileName = TestLogData.executionStartTime.Replace(":", "") + TestLogData.executionDate.Replace("/", "") + ".txt";
+            if (!Directory.Exists(LogPath))
+                Directory.CreateDirectory(LogPath);
+            if (!File.Exists(FileName))
+                File.Create(FileName);
+            StreamWriter sw = new StreamWriter(LogPath + FileName);
+            sw.WriteLine(sb);
+            sw.Close();
+            System.Diagnostics.Process.Start(LogPath);
         }
     }
 }

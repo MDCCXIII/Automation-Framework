@@ -88,10 +88,15 @@ namespace AutomationFramework_example_v1.Framework
         {
             Wrapup();
             // Locate and click logout button
-            IWebElement LogoutButton = Elements.ByXpath("//button[contains(@id, 'btnLogout')]");
-            LogoutButton.Click();
-            IWebElement ConfirmLogoutButton = Elements.ByXpath("//button[contains(@id, 'btnConfirm')]");
-            ConfirmLogoutButton.Click();
+            StepInfo currentStep = new StepInfo();
+            currentStep.controlName = "buttonLogout";
+            currentStep.action = Actions.CLICK;
+            currentStep.Execute();
+
+            currentStep = new StepInfo();
+            currentStep.controlName = "buttonConfirm";
+            currentStep.action = Actions.CLICK;
+            currentStep.Execute();
         }
 
         private static void Wrapup()
@@ -106,16 +111,26 @@ namespace AutomationFramework_example_v1.Framework
                 currentStep.parameters = "ifPresent";
                 currentStep.Execute();
 
-                // Locate and select Disposition Select option X-Research
-                IWebElement DispositionSelect = Elements.ByXpath("//div[contains(@id, 'tfhPerspectives')][contains(@style, 'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//select[contains(@id, 'optReasonCodes')]");
-                DispositionSelect.SelectOptionByText("X-Research");
+                currentStep = new StepInfo();
+                currentStep.controlName = "wrapupSelectDisposition";
+                currentStep.action = Actions.SELECTOPTIONBYTEXT;
+                currentStep.parameters = "X-Research";
+                currentStep.Execute();
+
                 // Locate and select YesNo Select option Yes
-                IWebElement YesNoSelect = Elements.ByXpath("//div[contains(@id, 'tfhPerspectives')][contains(@style, 'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//select[contains(@id, 'optYesNo')]");
-                YesNoSelect.SelectOptionByText("Yes");
+                currentStep = new StepInfo();
+                currentStep.controlName = "wrapupSelectYesNo";
+                currentStep.action = Actions.SELECTOPTIONBYTEXT;
+                currentStep.parameters = "Yes";
+                currentStep.Execute();
+
                 driver.Wait(2);
+
                 // Locate and click confirm button
-                IWebElement ConfirmButton = Elements.ByXpath("//div[contains(@id, 'tfhPerspectives')][contains(@style, 'visibility: visible')]//div[contains(@id, 'fhdVerbRunner')]/div[contains(@id, 'innerForm')][not(contains(@style, 'display: none'))]//button[contains(@id, 'btnConfirm')]");
-                ConfirmButton.Click();
+                currentStep = new StepInfo();
+                currentStep.controlName = "wrapupConfirmButton";
+                currentStep.action = Actions.CLICK;
+                currentStep.Execute();
             }
             driver.Wait(2);
         }

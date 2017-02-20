@@ -107,13 +107,14 @@ namespace AutomationFramework_example_v1.Framework
                 step.parameters = step.parameters.Replace("ClearBeforeSending", "");
                 step.parameters = step.parameters.Trim().Trim(',').Trim();
             }
-            control.SendKeys(step.parameters + Keys.Return);
+            //pulled the return key as it was causing the page to validate
+            control.SendKeys(step.parameters );//+ Keys.Return
         }
 
         private static void Click()
         {
             int attempt = 0;
-            while (attempt < 4)
+            while (attempt < 2)
             {
                 try
                 {
