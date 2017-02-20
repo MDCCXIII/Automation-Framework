@@ -21,6 +21,7 @@ namespace AutomationFramework_example_v1.Framework.Log.LogObjects
         public static int stepNumber = 0;
         public static string stepExecutionTime = "";
         public static string stepResult = "Pass";
+        public static string warning = "";
 
         public static string keywordName = "";
         public static string keywordDescription = "";
@@ -104,6 +105,7 @@ namespace AutomationFramework_example_v1.Framework.Log.LogObjects
             stepExecutionTime = "";
             controlIdentificationTime = "";
             ex = null;
-    }
+            warning = "";
+        }
     }
 }

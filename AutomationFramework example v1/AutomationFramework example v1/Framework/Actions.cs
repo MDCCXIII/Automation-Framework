@@ -1,5 +1,6 @@
 ﻿using AutomationFramework_example_v1.Framework.TableMappings;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Threading;
 
@@ -14,35 +15,45 @@ namespace AutomationFramework_example_v1.Framework
         {
             Actions.control = control;
             Actions.step = stepInfo;
+            
             LoadAction(step.action);
         }
+        public const string CLICK = "click";
+        public const string SETSTATECHECKED = "setstatechecked";
+        public const string SETSTATEUNCHECKED = "setstateunchecked";
+        public const string INPUTTEXT = "inputtext";
+        public const string INPUTDATE = "inputdate";
+        public const string VERIFYTEXTEQUALS = "verifytextequals";
+        public const string SELECTOPTIONBYTEXT = "selectoptionbytext";
+        public const string VERIFYTEXTCONTAINS = "verifytextcontains";
 
         private static void LoadAction(string actionName)
         {
+            
             switch (actionName.ToLower())
             {
-                case "click":
+                case CLICK:
                     Click();
                     break;
-                case "setstatechecked":
+                case SETSTATECHECKED:
                     SetCheckedState(true);
                     break;
-                case "setstateunchecked":
+                case SETSTATEUNCHECKED:
                     SetCheckedState(false);
                     break;
-                case "inputtext":
+                case INPUTTEXT:
                     SendKeys();
                     break;
-                case "inputdate":
+                case INPUTDATE:
                     InputDate();
                     break;
-                case "verifytextequals":
+                case VERIFYTEXTEQUALS:
                     VerifyTextEqual(step.parameters);
                     break;
-                case "selectoptionbytext":
+                case SELECTOPTIONBYTEXT:
                     SelectOptionByText(step.parameters);
                     break;
-                case "verifytextcontains":
+                case VERIFYTEXTCONTAINS:
                     VerifyTextContains(step.parameters);
                     break;
                 default:
@@ -71,7 +82,7 @@ namespace AutomationFramework_example_v1.Framework
         {
             if (!control.GetAttribute("checked").Equals(v.ToString()))
             { 
-                control.Click();
+                Click();
             }
         }
 
@@ -79,7 +90,7 @@ namespace AutomationFramework_example_v1.Framework
         {
             if (step.parameters.ToLower().Contains("clearbeforesending"))
             {
-                control.Click();
+                Click();
                 control.Clear();
                 step.parameters = step.parameters.Replace("ClearBeforeSending", "");
                 step.parameters = step.parameters.Trim().Trim(',').Trim();
@@ -91,23 +102,24 @@ namespace AutomationFramework_example_v1.Framework
         {
             if (step.parameters.ToLower().Contains("clearbeforesending"))
             {
-                control.Click();
+                Click();
                 control.Clear();
                 step.parameters = step.parameters.Replace("ClearBeforeSending", "");
                 step.parameters = step.parameters.Trim().Trim(',').Trim();
             }
-            control.SendKeys(step.parameters + Keys.Return);
+            //pulled the return key as it was causing the page to validate
+            control.SendKeys(step.parameters );//+ Keys.Return
         }
 
         private static void Click()
         {
             int attempt = 0;
-            while (attempt < 4)
+            while (attempt < 2)
             {
                 try
                 {
                     attempt++;
-                    control.Click();
+                    Driver.wait.Until(ExpectedConditions.ElementToBeClickable(control)).Click();
                     break;
 
                 }

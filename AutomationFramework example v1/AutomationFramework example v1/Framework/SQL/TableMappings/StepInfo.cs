@@ -9,22 +9,22 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
 #pragma warning disable 0169
 #pragma warning disable 0649
         [ColumnMap("id")]
-        public int id;
+        public int id = 0;
 
         [ColumnMap("controlName")]
-        public string controlName;
+        public string controlName = "";
 
         [ColumnMap("action")]
-        public string action;
+        public string action = "";
 
         [ColumnMap("keyword")]
-        public string keyword;
+        public string keyword = "";
 
         [ColumnMap("parameters")]
-        public string parameters;
+        public string parameters = "";
 
         [ColumnMap("failCondition")]
-        public string failCondition;
+        public string failCondition = "";
 
 
 
