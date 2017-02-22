@@ -1,6 +1,7 @@
 ﻿using AutomationFramework_example_v1.Framework;
 using AutomationFramework_example_v1.Framework.Log.ExampleLogger;
 using System;
+using System.Runtime.InteropServices;
 
 namespace AutomationFramework_example_v1
 {
@@ -12,6 +13,9 @@ namespace AutomationFramework_example_v1
        // public const string DefaultConnectionStringName = "Tony'sLocalConnection";
         public const string DefaultConnectionStringName = "SharedServer";
         public const int DefaultController = 0;
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
 
         static void Main(string[] args)
         {
@@ -30,8 +34,10 @@ namespace AutomationFramework_example_v1
             }
             finally
             {
-                if (Controller.driver != null)
-                    Controller.driver.Quit();
+                if (GetConsoleWindow() != IntPtr.Zero)
+                {
+                    Environment.Exit(0);
+                }
             }
             //the command line command structure to call the framework would need to be well documented
         }

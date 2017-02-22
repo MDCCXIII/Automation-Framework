@@ -49,6 +49,7 @@ namespace AutomationFramework_example_v1.Framework
                 {
                     if (attempt >= 3)
                         ConsoleLogger.Log(ex);
+                    break;
                 }
                 Thread.Sleep(3000);
             }
