@@ -10,7 +10,7 @@ namespace AutomationFramework_example_v1.Framework
 {
     class Controller
     {
-        public static IWebDriver driver;
+        public static IWebDriver driver = null;
         static Stopwatch suiteTimer;
         static Stopwatch testTimer;
         static Stopwatch stepTimer;
@@ -38,29 +38,43 @@ namespace AutomationFramework_example_v1.Framework
 
             foreach (Suite test in suiteInfo)
             {
-                if (test.execute)
+                ConsoleLogger.New();
+                try
                 {
-                    testTimer = NewTimer();
-                    testTimer.Start();
-                    test.PopulateLogData();
-                    ProjectInfo projectInfo;
-                    List<StepInfo> steps;
-                    TestInfo testInfo;
-                    PopulateTestInfo(test, out testInfo, out projectInfo, out steps);
-                    ConsoleLogger.LogTestInfo();
-                    LaunchProject(test, projectInfo);
-
-                    foreach (StepInfo step in steps)
+                    if (test.execute)
                     {
-                        ExecuteStep(testInfo, projectInfo, test, step);
+                        testTimer = NewTimer();
+                        testTimer.Start();
+                        test.PopulateLogData();
+                        ProjectInfo projectInfo;
+                        List<StepInfo> steps;
+                        TestInfo testInfo;
+                        PopulateTestInfo(test, out testInfo, out projectInfo, out steps);
+                        ConsoleLogger.LogTestInfo();
+                        LaunchProject(test, projectInfo);
+
+                        foreach (StepInfo step in steps)
+                        {
+                            ExecuteStep(testInfo, projectInfo, test, step);
+                        }
+                        testTimer.Stop();
+                        ConsoleLogger.LogTestResults();
+                        ConsoleLogger.Log();
                     }
-                    testTimer.Stop();
+                } catch(Exception ex)
+                {
                     ConsoleLogger.LogTestResults();
+                    ConsoleLogger.Log(ex);
                     ConsoleLogger.Log();
+                }
+                finally
+                {
+                    if (driver != null)
+                        if(driver.WindowHandles.Count > 0)
+                            driver.Close();
                 }
             }
             suiteTimer.Stop();
-            
         }
 
         private static void ExecuteStep(TestInfo testInfo, ProjectInfo projectInfo, Suite test, StepInfo step)
@@ -184,6 +198,12 @@ namespace AutomationFramework_example_v1.Framework
 
         private static bool CheckFlags(ref StepInfo step, ControlInfo controlInfo, XpathInfo pathInfo)
         {
+            if (step.parameters.Contains("debug"))
+            {
+                step.parameters.Replace("debug", "").Trim(' ').Trim(',').Trim(' ');
+                Debug.WriteLine("debug step: " + step.id);
+            }
+
             if (step.parameters.Contains("ifPresent"))
             {
                 step.parameters.Replace("ifPresent", "").Trim(' ').Trim(',').Trim(' ');
@@ -197,15 +217,8 @@ namespace AutomationFramework_example_v1.Framework
                     return false;
                 }
             }
-            else
-            {
-                if (step.parameters.Contains("debug"))
-                {
-                    step.parameters.Replace("debug", "").Trim(' ').Trim(',').Trim(' ');
-                    Debug.WriteLine("debug step: " + step.id);
-                }
-                return true;
-            }
+
+            return true;
         }
 
         private static void PopulateIdentifiedControlInfo(IWebElement control)

@@ -1,5 +1,6 @@
 ﻿using AutomationFramework_example_v1.Framework.Log.LogObjects;
 using AutomationFramework_example_v1.Framework.SQL;
+using System.Collections.Generic;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
 {
@@ -27,7 +28,8 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             Command cmd = new Command("getTestInformation");
             cmd.AddParameter("testName", testName);
             cmd.AddParameter("projectName", projectName);
-            TestInfo result = this.ExecuteStoredProcedure(cmd)[0];
+            List<TestInfo> testInfo = this.ExecuteStoredProcedure(cmd);
+            TestInfo result = testInfo[0];
             cmd.Dispose();
             PopulateLogData(result);
             return result;

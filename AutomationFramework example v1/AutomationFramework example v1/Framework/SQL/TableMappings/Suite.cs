@@ -25,6 +25,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
 
         public List<Suite> Populate()
         {
+            TestLogData.DefaultTestValues();
             Command cmd = new Command("getSuiteInformation");
             List<Suite> result = this.ExecuteStoredProcedure(cmd);
             cmd.Dispose();

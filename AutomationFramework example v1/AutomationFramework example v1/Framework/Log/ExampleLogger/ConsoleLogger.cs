@@ -14,6 +14,17 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
     {
         static StringBuilder sb;
 
+        public static void New()
+        {
+            if (sb != null)
+                sb.Clear();
+            else
+                sb = new StringBuilder();
+            sb.AppendLine("----------------------------------------------------------------------------------------------------------------------------");
+            sb.AppendLine("-----------------------------------------------------------*Test*-----------------------------------------------------------");
+            sb.AppendLine("----------------------------------------------------------------------------------------------------------------------------");
+        }
+
         public static void Log()
         {
             Log(sb.ToString());
@@ -21,7 +32,6 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
 
         public static void LogTestInfo()
         {
-            sb = new StringBuilder();
             sb.AppendLine("Test Name: " + TestLogData.testName + " Tested Browser: " + TestLogData.testedBrowser);
             sb.AppendLine("Project Name: " + TestLogData.projectName + " Project Url: " + TestLogData.projectUrl);
             sb.AppendLine("Execution Date: " + TestLogData.executionDate + " Execution Start Time: " + TestLogData.executionStartTime);
@@ -184,10 +194,11 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
                 Directory.CreateDirectory(LogPath);
             if (!File.Exists(FileName))
                 File.Create(FileName);
-            StreamWriter sw = new StreamWriter(LogPath + FileName);
-            sw.WriteLine(sb);
-            sw.Close();
-            System.Diagnostics.Process.Start(LogPath);
+            using(StreamWriter sw = File.AppendText(LogPath + FileName))
+            {
+                sw.WriteLine(sb);
+            }
+            Process.Start(LogPath);
         }
     }
 }

@@ -70,43 +70,13 @@ namespace AutomationFramework_example_v1.Framework
         {
             try
             {
-                driver.FindElement(by);
+                Driver.wait.Until(d => d.FindElement(by));
                 return true;
             }
             catch (NoSuchElementException)
             {
                 return false;
             }
-        }
-
-        public static IWebElement FindElement(this IWebDriver driver, string Xpath, string[] parameters)
-        {
-            return driver.FindElement(By.XPath(string.Format(Xpath, parameters)));
-        }
-
-        public static IWebElement FindElement(this IWebDriver driver, string Xpath, string[] parameters, int timeoutInSeconds)
-        {
-            return driver.FindElement(By.XPath(string.Format(Xpath, parameters)), timeoutInSeconds);
-        }
-
-        public static IWebElement FindElement(this IWebDriver driver, By by, int timeoutInSeconds)
-        {
-            if (timeoutInSeconds > 0)
-            {
-                try
-                {
-                    for (var i = 0; i < timeoutInSeconds; i++)
-                    {
-                        if (driver.IsElementPresent(by)) return driver.FindElement(by);
-                        Thread.Sleep(1000);
-                    }
-                }
-                catch (NoSuchElementException)
-                {
-
-                }
-            }
-            return driver.FindElement(by);
         }
 
         public static bool TextContains(this IWebElement element, string text)
