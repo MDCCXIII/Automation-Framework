@@ -14,7 +14,7 @@ namespace AutomationFramework_example_v1.Framework
         public static void Execute(this IWebElement control, StepInfo stepInfo)
         {
             Actions.control = control;
-            Actions.step = stepInfo;
+            step = stepInfo;
             
             LoadAction(step.action);
         }
@@ -67,9 +67,9 @@ namespace AutomationFramework_example_v1.Framework
             {
                 throw new Exception("No parameters provided for step number " + step.id);
             }
-            if (!control.TextContains(parameters))
+            if (!control.Text.Contains(parameters) && !control.GetAttribute("value").Contains(parameters))
             {
-                throw new Exception("Validation Error: the control " + step.controlName + "'s text did not contain \"" + parameters + "\".");
+                throw new Exception("Validation Error: the control " + step.controlName + "'s text did not contain \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual: \"" + control.Text + "\" Actual Value: \"" + control.GetAttribute("value") + "\"");
             }
         }
 
@@ -141,10 +141,15 @@ namespace AutomationFramework_example_v1.Framework
                 throw new Exception("No parameters provided for step number " + step.id);
             }
 
-            if(!control.TextEqual(parameters))
+            if(!control.Text.Equals(parameters) && !control.Update().GetAttribute("value").Equals(parameters))
             {
-                throw new Exception("Validation Error: the control " + step.controlName + "'s text did not equal \"" + parameters +"\".");
+                throw new Exception("Validation Error: the control " + step.controlName + "'s text did not equal \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual Text: \"" + control.Text + "\" Actual Value: \"" + control.GetAttribute("value") + "\"");
             }
+        }
+
+        private static IWebElement Update(this IWebElement control)
+        {
+            return Elements.ById(By.Id(control.GetCssValue("id")));
         }
        
     }

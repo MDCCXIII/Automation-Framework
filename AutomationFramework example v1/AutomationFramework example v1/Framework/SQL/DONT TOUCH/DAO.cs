@@ -38,14 +38,14 @@ namespace AutomationFramework_example_v1.Framework.SQL
                         clazz = (T)Activator.CreateInstance(typeof(T));
                         foreach (string column in columns)
                         {
-                            if (rdr.GetFieldType(rdr.GetOrdinal(column)).Name.Equals("Int32") && rdr[column].ToString().Equals(""))
-                            {
-                                clazz.SetValue<T>(clazz, column, 0.ToString());
-                            }
-                            else
-                            {
-                                clazz.SetValue<T>(clazz, column, rdr[column].ToString());
-                            }
+                            //if (rdr.GetFieldType(rdr.GetOrdinal(column)).Name.Equals("Int32") && rdr[column].ToString().Equals(""))
+                            //{
+                            //    clazz.SetValue<T>(clazz, column, 0);
+                            //}
+                            //else
+                            //{
+                                clazz.SetValue<T>(clazz, column, rdr[column]);
+                            //}
                         }
                         result.Add(clazz);
                     }
