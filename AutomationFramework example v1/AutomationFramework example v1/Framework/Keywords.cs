@@ -1,4 +1,6 @@
-﻿using AutomationFramework_example_v1.Framework.TableMappings;
+﻿using AutomationFramework_example_v1.Framework.Log.ExampleLogger;
+using AutomationFramework_example_v1.Framework.Log.LogObjects;
+using AutomationFramework_example_v1.Framework.TableMappings;
 using OpenQA.Selenium;
 using System;
 
@@ -39,8 +41,7 @@ namespace AutomationFramework_example_v1.Framework
 
         private static void Execute(this StepInfo currentStep)
         {
-            currentStep.PopulateLogData();
-            Controller.PreformStep(testInfo, projectInfo, suite, currentStep);
+            Controller.ExecuteStep(testInfo, projectInfo, suite, currentStep);
         }
 
         private static void Login()

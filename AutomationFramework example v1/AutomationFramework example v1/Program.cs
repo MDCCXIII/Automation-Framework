@@ -1,6 +1,7 @@
 ﻿using AutomationFramework_example_v1.Framework;
 using AutomationFramework_example_v1.Framework.Log.ExampleLogger;
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace AutomationFramework_example_v1
@@ -34,10 +35,8 @@ namespace AutomationFramework_example_v1
             }
             finally
             {
-                if (GetConsoleWindow() != IntPtr.Zero)
-                {
-                    Environment.Exit(0);
-                }
+                try { Process.GetProcessById(Driver.serviceId).Kill(); }
+                catch { }
             }
             //the command line command structure to call the framework would need to be well documented
         }
