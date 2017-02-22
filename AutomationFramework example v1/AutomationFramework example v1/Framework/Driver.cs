@@ -6,26 +6,37 @@ using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.Events;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Threading;
 
 namespace AutomationFramework_example_v1.Framework
 {
     static class Driver
     {
         public static WebDriverWait wait = null;
+        public static int serviceId = 0;
         public static IWebDriver GetDriver(string BrowserName)
         {
             IWebDriver result = null;
             switch (BrowserName.ToLower())
             {
                 case "chrome":
-                    result = new EventFiringWebDriver(new ChromeDriver());
+                    ChromeDriverService cService = ChromeDriverService.CreateDefaultService();
+                    cService.Start();
+                    serviceId = cService.ProcessId;
+                    result = new ThreadLocal<IWebDriver>(() => { return new EventFiringWebDriver(new ChromeDriver()); }).Value;
                     break;
                 case "ie" :
+                    InternetExplorerDriverService ieService = InternetExplorerDriverService.CreateDefaultService();
+                    ieService.Start();
+                    serviceId = ieService.ProcessId;
                     var options = new InternetExplorerOptions{ IgnoreZoomLevel = true };
-                    result = new EventFiringWebDriver(new InternetExplorerDriver(options));
+                    result = new ThreadLocal<IWebDriver>(() => { return new EventFiringWebDriver(new InternetExplorerDriver(ieService, options)); } ).Value;
                     break;
                 case "firefox":
-                    result = new EventFiringWebDriver(new FirefoxDriver());
+                    FirefoxDriverService ffService = FirefoxDriverService.CreateDefaultService();
+                    ffService.Start();
+                    serviceId = ffService.ProcessId;
+                    result = new ThreadLocal<IWebDriver>(() => { return new EventFiringWebDriver(new FirefoxDriver(ffService)); }).Value;
                     break;
                 default:
                     throw new Exception("Bad Driver Identifier: " + BrowserName + ".");
@@ -33,7 +44,7 @@ namespace AutomationFramework_example_v1.Framework
             //result.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(60));
             result.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
             result.Manage().Window.Maximize();
-
+            
             wait = new WebDriverWait(result, new TimeSpan(0,0,30));
             return result;
         }
