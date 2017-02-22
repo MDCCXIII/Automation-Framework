@@ -1,4 +1,5 @@
-﻿using AutomationFramework_example_v1.Framework.TableMappings;
+﻿using AutomationFramework_example_v1.Framework.Log.LogObjects;
+using AutomationFramework_example_v1.Framework.TableMappings;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -11,9 +12,11 @@ namespace AutomationFramework_example_v1.Framework
         private static IWebElement control;
         private static StepInfo step;
 
-        public static void Execute(this IWebElement control, StepInfo stepInfo)
+        public static void Execute(this IWebElement control, StepInfo stepInfo, ControlInfo controlInfo, XpathInfo xpathInfo)
         {
             Actions.control = control;
+            Actions.controlInfo = controlInfo;
+            Actions.xpathInfo = xpathInfo;
             step = stepInfo;
             
             LoadAction(step.action);
@@ -26,6 +29,8 @@ namespace AutomationFramework_example_v1.Framework
         public const string VERIFYTEXTEQUALS = "verifytextequals";
         public const string SELECTOPTIONBYTEXT = "selectoptionbytext";
         public const string VERIFYTEXTCONTAINS = "verifytextcontains";
+        private static ControlInfo controlInfo;
+        private static XpathInfo xpathInfo;
 
         private static void LoadAction(string actionName)
         {
@@ -67,9 +72,12 @@ namespace AutomationFramework_example_v1.Framework
             {
                 throw new Exception("No parameters provided for step number " + step.id);
             }
-            if (!control.Text.Contains(parameters) && !control.GetAttribute("value").Contains(parameters))
+            WaitForValue();
+            string controlText = control.Update().Text;
+            string controlValue = control.Update().GetAttribute("value");
+            if (!controlText.Contains(parameters) && !controlValue.Contains(parameters))
             {
-                throw new Exception("Validation Error: the control " + step.controlName + "'s text did not contain \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual: \"" + control.Text + "\" Actual Value: \"" + control.GetAttribute("value") + "\"");
+                throw new Exception("Validation Error: the control " + step.controlName + "'s text did not contain \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
             }
         }
 
@@ -119,6 +127,7 @@ namespace AutomationFramework_example_v1.Framework
                 try
                 {
                     attempt++;
+                    Thread.Sleep(1000);
                     Driver.wait.Until(ExpectedConditions.ElementToBeClickable(control)).Click();
                     break;
 
@@ -136,20 +145,37 @@ namespace AutomationFramework_example_v1.Framework
 
         private static void VerifyTextEqual(string parameters)
         {
-            if(parameters == "")
+            if (parameters == "")
             {
                 throw new Exception("No parameters provided for step number " + step.id);
             }
-
-            if(!control.Text.Equals(parameters) && !control.Update().GetAttribute("value").Equals(parameters))
+            WaitForValue();
+            string controlText = control.Update().Text;
+            string controlValue = control.Update().GetAttribute("value");
+            if (!controlText.Equals(parameters) && !controlValue.Equals(parameters))
             {
-                throw new Exception("Validation Error: the control " + step.controlName + "'s text did not equal \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual Text: \"" + control.Text + "\" Actual Value: \"" + control.GetAttribute("value") + "\"");
+                throw new Exception("Validation Error: the control " + step.controlName + "'s text did not equal \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual Text: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
+            }
+        }
+
+        private static void WaitForValue()
+        {
+            int i = 0;
+            while (control.Update().Text.Equals("") && control.Update().GetAttribute("value").Equals(""))
+            {
+                Thread.Sleep(3000);
+                if (i++ >= 4)
+                {
+                    TestLogData.warning = "Unable to capture the " + step.controlName + "'s text or value. Attribute is empty (\"\")";
+                    break;
+                }
             }
         }
 
         private static IWebElement Update(this IWebElement control)
         {
-            return Elements.ById(By.Id(control.GetCssValue("id")));
+                control = Elements.ById(Elements.GetIdentifier(controlInfo, xpathInfo));
+            return control;
         }
        
     }
