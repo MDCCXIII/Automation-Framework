@@ -67,12 +67,6 @@ namespace AutomationFramework_example_v1.Framework
                     ConsoleLogger.Log(ex);
                     ConsoleLogger.Log();
                 }
-                finally
-                {
-                    if (driver != null)
-                        if(driver.WindowHandles.Count > 0)
-                            driver.Close();
-                }
             }
             suiteTimer.Stop();
         }
@@ -185,7 +179,7 @@ namespace AutomationFramework_example_v1.Framework
 
                         PopulateIdentifiedControlInfo(control);
                         identificationTimer.Stop();
-                        control.Execute(step);
+                        control.Execute(step, controlInfo, pathInfo);
                     }
 
                 }
