@@ -11,23 +11,23 @@ namespace AutomationFramework_example_v1.Framework
     class Controller
     {
         public static IWebDriver driver = null;
-        static Stopwatch suiteTimer;
-        static Stopwatch testTimer;
-        static Stopwatch stepTimer;
-        static Stopwatch identificationTimer;
+        public static Stopwatch suiteTimer;
+        public static Stopwatch testTimer;
+        public static Stopwatch stepTimer;
+        public static Stopwatch identificationTimer;
 
         public Controller(int controllerOption)
         {
-           
-                switch (controllerOption)
-                {
-                    case 0:
-                        StandardController();
-                        break;
-                    default:
-                        throw new Exception("Invalid controller option.");
-                }
-            
+
+            switch (controllerOption)
+            {
+                case 0:
+                    StandardController();
+                    break;
+                default:
+                    throw new Exception("Invalid controller option.");
+            }
+
         }
 
         private void StandardController()
@@ -61,17 +61,23 @@ namespace AutomationFramework_example_v1.Framework
                         ConsoleLogger.LogTestResults();
                         ConsoleLogger.Log();
                     }
-                } catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     ConsoleLogger.LogTestResults();
                     ConsoleLogger.Log(ex);
                     ConsoleLogger.Log();
                 }
+                finally
+                {
+                    if(driver!=null)
+                        driver.Close();
+                }
             }
             suiteTimer.Stop();
         }
 
-        private static void ExecuteStep(TestInfo testInfo, ProjectInfo projectInfo, Suite test, StepInfo step)
+        public static void ExecuteStep(TestInfo testInfo, ProjectInfo projectInfo, Suite test, StepInfo step)
         {
             stepTimer = NewTimer();
             identificationTimer = NewTimer();
@@ -121,7 +127,7 @@ namespace AutomationFramework_example_v1.Framework
             steps = new StepInfo().Populate(testInfo.stepProcedureName);
         }
 
-        public static void PreformStep(TestInfo testInfo, ProjectInfo projectInfo, Suite test, StepInfo step)
+        private static void PreformStep(TestInfo testInfo, ProjectInfo projectInfo, Suite test, StepInfo step)
         {
             stepTimer.Start();
             ControlInfo controlInfo = null;
@@ -201,11 +207,12 @@ namespace AutomationFramework_example_v1.Framework
             if (step.parameters.Contains("ifPresent"))
             {
                 step.parameters.Replace("ifPresent", "").Trim(' ').Trim(',').Trim(' ');
-                if (driver.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo)))
+                try
                 {
+                    driver.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo));
                     return true;
                 }
-                else
+                catch
                 {
                     TestLogData.warning = "The control was not present.";
                     return false;
