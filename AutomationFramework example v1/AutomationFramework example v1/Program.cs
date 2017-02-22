@@ -15,7 +15,6 @@ namespace AutomationFramework_example_v1
 
         static void Main(string[] args)
         {
-
             //use args to set up framework properties like debugging and show console ect.
             try
             {
@@ -28,6 +27,11 @@ namespace AutomationFramework_example_v1
                 ConsoleLogger.Log(ex);
                 ConsoleLogger.Log();
                 
+            }
+            finally
+            {
+                if (Controller.driver != null)
+                    Controller.driver.Quit();
             }
             //the command line command structure to call the framework would need to be well documented
         }

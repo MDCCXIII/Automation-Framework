@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Reflection;
 
 namespace AutomationFramework_example_v1.Framework.SQL
@@ -20,31 +21,23 @@ namespace AutomationFramework_example_v1.Framework.SQL
 
         public void SetValue<T>(T c, string columnName, object val) where T : class
         {
-            bool x = false;
-            int y = 0;
-            if(Boolean.TryParse((string)val, out x))
-            {
-                val = x;
-            }
-            else if(Int32.TryParse((string)val, out y))
-            {
-                val = y;
-            }
-            
+            Type type = val.GetType();
             foreach (FieldInfo f in typeof(T).GetFields())
             {
                 if (c.columnMatch(columnName, f.Name))
                 {
-                    if (f.Name.Equals("parameters"))
+                    if (f.FieldType.Equals(typeof(string)))
                     {
-                        f.SetValue(c, val.ToString());
-                    }
-                    else if (f.GetType().ToString().Equals("String"))
-                    {
+                        if (type.Equals(typeof(DBNull)))
+                            val = "";
                         f.SetValue(c, val.ToString());
                     }
                     else
                     {
+                        if (type.Equals(typeof(DBNull)) && f.FieldType.Equals(typeof(bool)))
+                            val = false;
+                        if (type.Equals(typeof(DBNull)) && f.FieldType.Equals(typeof(int)))
+                            val = 0;
                         f.SetValue(c, val);
                     }
                     

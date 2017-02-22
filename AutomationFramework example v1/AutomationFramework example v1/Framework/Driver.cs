@@ -30,11 +30,11 @@ namespace AutomationFramework_example_v1.Framework
                 default:
                     throw new Exception("Bad Driver Identifier: " + BrowserName + ".");
             }
-            result.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(60));
+            //result.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(60));
             result.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
             result.Manage().Window.Maximize();
 
-            wait = new WebDriverWait(result, new TimeSpan(0,0,10));
+            wait = new WebDriverWait(result, new TimeSpan(0,0,30));
             return result;
         }
 

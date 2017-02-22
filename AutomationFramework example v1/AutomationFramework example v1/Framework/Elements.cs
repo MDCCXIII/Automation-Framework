@@ -1,6 +1,8 @@
-﻿using AutomationFramework_example_v1.Framework.TableMappings;
+﻿using AutomationFramework_example_v1.Framework.Log.ExampleLogger;
+using AutomationFramework_example_v1.Framework.TableMappings;
 using OpenQA.Selenium;
 using System;
+using System.Threading;
 
 namespace AutomationFramework_example_v1.Framework
 {
@@ -8,40 +10,49 @@ namespace AutomationFramework_example_v1.Framework
     {
         public static IWebElement ById(string id)
         {
-            return Controller.driver.FindElement(By.Id(id));
-        }
-        public static IWebElement ById(string id, int timeoutInSeconds)
-        {
-            return Controller.driver.FindElement(By.Id(id), timeoutInSeconds);
+            return Find(By.Id(id));
         }
         public static IWebElement ById(By id)
         {
-            return Controller.driver.FindElement(id);
-        }
-        public static IWebElement ById(By id, int timeoutInSeconds)
-        {
-            return Controller.driver.FindElement(id, timeoutInSeconds);
+            return Find(id);
         }
 
         public static IWebElement ByXpath(By Xpath)
         {
-            return Controller.driver.FindElement(Xpath);
+            return Find(Xpath);
         }
         public static IWebElement ByXpath(string Xpath)
         {
-            return Controller.driver.FindElement(By.XPath(Xpath));
+            return Find(By.XPath(Xpath));
         }
         public static IWebElement ByXpath(string Xpath, string[] parameters)
         {
-            return Controller.driver.FindElement(Xpath, parameters);
+            return ByXpath(string.Format(Xpath, parameters));
         }
-        public static IWebElement ByXpath(string Xpath, int timeoutInSeconds)
+
+        private static IWebElement Find(By by)
         {
-            return Controller.driver.FindElement(By.XPath(Xpath), timeoutInSeconds);
-        }
-        public static IWebElement ByXpath(string Xpath, string[] parameters, int timeoutInSeconds)
-        {
-            return Controller.driver.FindElement(Xpath, parameters, timeoutInSeconds);
+            IWebElement result = null;
+            int attempt = 0;
+            while (attempt < 4)
+            {
+                attempt++;
+                try
+                {
+                    if(Controller.driver.IsElementPresent(by)){
+                        result = Driver.wait.Until(d => Controller.driver.FindElement(by));
+                        break;
+                    }
+                    
+                }
+                catch (Exception ex)
+                {
+                    if (attempt >= 3)
+                        ConsoleLogger.Log(ex);
+                }
+                Thread.Sleep(3000);
+            }
+            return result;
         }
 
         public static IWebElement GetElement(ControlInfo controlInfo, XpathInfo pathInfo)

@@ -79,7 +79,7 @@ namespace AutomationFramework_example_v1.Framework
             currentStep.parameters = "ifPresent";
             currentStep.Execute();
 
-            driver.Wait(10);
+            driver.Wait(30);
         }
 
         
