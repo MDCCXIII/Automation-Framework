@@ -107,7 +107,7 @@ namespace AutomationFramework_example_v1.Framework
             {
 
                 StepInfo currentStep = new StepInfo();
-                currentStep.controlName = "identifyPersonButtonWrapup";
+                currentStep.controlName = "buttonWrapup";
                 currentStep.action = Actions.CLICK;
                 currentStep.parameters = "ifPresent";
                 currentStep.Execute();

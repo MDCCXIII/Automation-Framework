@@ -70,8 +70,15 @@ namespace AutomationFramework_example_v1.Framework
                 }
                 finally
                 {
-                    if(driver!=null)
-                        driver.Close();
+                    try
+                    {
+                        if (driver != null)
+                            driver.Close();
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
             suiteTimer.Stop();

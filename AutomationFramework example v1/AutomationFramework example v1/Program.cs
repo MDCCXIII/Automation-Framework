@@ -35,10 +35,30 @@ namespace AutomationFramework_example_v1
             }
             finally
             {
-                try { Process.GetProcessById(Driver.serviceId).Kill(); }
+                try {
+                    Driver.driver.Quit();
+                    Driver.service.Dispose();
+                    KillProcessByID(Driver.serviceId, true);
+                }
                 catch { }
             }
             //the command line command structure to call the framework would need to be well documented
+        }
+
+        static bool KillProcessByID(int id, bool waitForExit = false)
+        {
+            using (Process p = Process.GetProcessById(id)) {
+                if (p == null || p.HasExited) return false;
+                p.CloseMainWindow();
+                p.Close();
+                p.Kill();
+                if (waitForExit)
+                {
+                    p.WaitForExit();
+                }
+                p.Dispose();
+                return true;
+            }
         }
     }
 }
