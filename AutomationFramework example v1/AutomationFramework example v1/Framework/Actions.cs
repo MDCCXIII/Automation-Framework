@@ -18,6 +18,7 @@ namespace AutomationFramework_example_v1.Framework
             Actions.controlInfo = controlInfo;
             Actions.xpathInfo = xpathInfo;
             step = stepInfo;
+            step.parameters = step.parameters.Trim('\r').Trim('\n');
             
             LoadAction(step.action);
         }
@@ -83,6 +84,8 @@ namespace AutomationFramework_example_v1.Framework
             WaitForValue();
             string controlText = control.Update().Text;
             string controlValue = control.Update().GetAttribute("value");
+            if (controlText == null) controlText = "";
+            if (controlValue == null) controlValue = "";
             if (!controlText.Contains(parameters) && !controlValue.Contains(parameters))
             {
                 throw new Exception("Validation Error: the control " + step.controlName + "'s text did not contain \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
@@ -98,6 +101,8 @@ namespace AutomationFramework_example_v1.Framework
             WaitForValue();
             string controlText = control.Update().Text;
             string controlValue = control.Update().GetAttribute("value");
+            if (controlText == null) controlText = "";
+            if (controlValue == null) controlValue = "";
             if (controlText.Contains(parameters) && controlValue.Contains(parameters))
             {
                 throw new Exception("Validation Error: the control " + step.controlName + "'s text did contain \"" + parameters + "\". \n Expected to not contain: \"" + parameters + "\"\n Actual: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
@@ -119,27 +124,23 @@ namespace AutomationFramework_example_v1.Framework
 
         private static void SendKeys()
         {
-            if (step.parameters.ToLower().Contains("clearbeforesending"))
+            if (step.flags.ToLower().Contains("clearbeforesending"))
             {
                 Click();
                 control.Clear();
-                step.parameters = step.parameters.Replace("ClearBeforeSending", "");
-                step.parameters = step.parameters.Trim().Trim(',').Trim();
             }
             control.SendKeys(step.parameters);
         }
 
         private static void InputDate()
         {
-            if (step.parameters.ToLower().Contains("clearbeforesending"))
+            if (step.flags.ToLower().Contains("clearbeforesending"))
             {
                 Click();
                 control.Clear();
-                step.parameters = step.parameters.Replace("ClearBeforeSending", "");
-                step.parameters = step.parameters.Trim().Trim(',').Trim();
             }
             //pulled the return key as it was causing the page to validate
-            control.SendKeys(step.parameters );//+ Keys.Return
+            control.SendKeys(step.parameters);//+ Keys.Return
         }
 
         private static void Click()
@@ -175,6 +176,8 @@ namespace AutomationFramework_example_v1.Framework
             WaitForValue();
             string controlText = control.Update().Text;
             string controlValue = control.Update().GetAttribute("value");
+            if (controlText == null) controlText = "";
+            if (controlValue == null) controlValue = "";
             if (!controlText.Equals(parameters) && !controlValue.Equals(parameters))
             {
                 throw new Exception("Validation Error: the control " + step.controlName + "'s text did not equal \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual Text: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
@@ -190,6 +193,8 @@ namespace AutomationFramework_example_v1.Framework
             WaitForValue();
             string controlText = control.Update().Text;
             string controlValue = control.Update().GetAttribute("value");
+            if (controlText == null) controlText = "";
+            if (controlValue == null) controlValue = "";
             if (controlText.Equals(parameters) && controlValue.Equals(parameters))
             {
                 throw new Exception("Validation Error: the control " + step.controlName + "'s text is equal to \"" + parameters + "\". \n Expected to not equal: \"" + parameters + "\"\n Actual Text: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
