@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Framework\Actions.cs" />
     <Compile Include="Framework\Elements.cs" />
+    <Compile Include="Framework\Flags.cs" />
     <Compile Include="Framework\Keywords.cs" />
     <Compile Include="Framework\Log\ExampleLogger\ConsoleLogger.cs" />
     <Compile Include="Framework\Log\ILog.cs" />

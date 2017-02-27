@@ -54,7 +54,7 @@ namespace AutomationFramework_example_v1.Framework.Log.LogObjects
         public static bool identifiedControlIsEnabled = false;
         public static bool identifiedControlIsSelected = false;
         
-        public static string failCondition = "";
+        public static string flags = "";
         public static string exceptionMessage = "";
         public static Exception ex = null;
         
@@ -93,7 +93,7 @@ namespace AutomationFramework_example_v1.Framework.Log.LogObjects
             controlCss = "";
             identifiedControlName = "";
             stepParameters = "";
-            failCondition = "";
+            flags = "";
             identifiedControlId = "";
             identifiedControlTagName = "";
             identifiedControlText = "";
