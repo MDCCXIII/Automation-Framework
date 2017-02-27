@@ -99,7 +99,7 @@ namespace AutomationFramework_example_v1.Framework
                 TestLogData.testResult = "Fail";
                 TestLogData.stepResult = "Fail";
                 TestLogData.exceptionMessage = ex.Message;
-                if (step.failCondition.ToLower().Equals(""))
+                if (step.flags.ToLower().Equals(""))
                 {
                     throw ex;
                 }
@@ -186,7 +186,7 @@ namespace AutomationFramework_example_v1.Framework
                 if (controlInfo != null)
                 {
                     identificationTimer.Start();
-                    if (CheckFlags(ref step, controlInfo, pathInfo))
+                    if (Flags.CheckIfPresent(step, controlInfo, pathInfo) && Flags.CheckIfDebug(step) && !Flags.PassIfControlNotPresent(step, controlInfo, pathInfo))
                     {
                         IWebElement control = Elements.GetElement(controlInfo, pathInfo);
 
@@ -203,31 +203,7 @@ namespace AutomationFramework_example_v1.Framework
             }
         }
 
-        private static bool CheckFlags(ref StepInfo step, ControlInfo controlInfo, XpathInfo pathInfo)
-        {
-            if (step.parameters.Contains("debug"))
-            {
-                step.parameters.Replace("debug", "").Trim(' ').Trim(',').Trim(' ');
-                Debug.WriteLine("debug step: " + step.id);
-            }
-
-            if (step.parameters.Contains("ifPresent"))
-            {
-                step.parameters.Replace("ifPresent", "").Trim(' ').Trim(',').Trim(' ');
-                try
-                {
-                    driver.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo));
-                    return true;
-                }
-                catch
-                {
-                    TestLogData.warning = "The control was not present.";
-                    return false;
-                }
-            }
-
-            return true;
-        }
+       
 
         private static void PopulateIdentifiedControlInfo(IWebElement control)
         {

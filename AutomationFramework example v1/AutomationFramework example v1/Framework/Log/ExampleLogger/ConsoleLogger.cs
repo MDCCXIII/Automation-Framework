@@ -63,9 +63,9 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
 
         private static void BuildFailConditionInfo()
         {
-            if (!TestLogData.failCondition.Equals(""))
+            if (!TestLogData.flags.Equals(""))
             {
-                sb.AppendLine("Fail Condition: " + TestLogData.failCondition);
+                sb.AppendLine("Flags: " + TestLogData.flags);
             }
         }
 

@@ -23,8 +23,8 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
         [ColumnMap("parameters")]
         public string parameters = "";
 
-        [ColumnMap("failCondition")]
-        public string failCondition = "";
+        [ColumnMap("flags")]
+        public string flags = "";
 
 
 
@@ -49,7 +49,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             TestLogData.actionName = stepInfo.action;
             TestLogData.keywordName = stepInfo.keyword;
             TestLogData.stepParameters = stepInfo.parameters;
-            TestLogData.failCondition = stepInfo.failCondition;
+            TestLogData.flags = stepInfo.flags;
         }
     }
 }
