@@ -29,6 +29,8 @@ namespace AutomationFramework_example_v1.Framework
         public const string VERIFYTEXTEQUALS = "verifytextequals";
         public const string SELECTOPTIONBYTEXT = "selectoptionbytext";
         public const string VERIFYTEXTCONTAINS = "verifytextcontains";
+        public const string VERIFYTEXTNOTEQUALS = "verifytextnotequals";
+        public const string VERIFYTEXTNOTCONTAINS = "verifytextnotcontains";
         private static ControlInfo controlInfo;
         private static XpathInfo xpathInfo;
 
@@ -61,6 +63,12 @@ namespace AutomationFramework_example_v1.Framework
                 case VERIFYTEXTCONTAINS:
                     VerifyTextContains(step.parameters);
                     break;
+                case VERIFYTEXTNOTCONTAINS:
+                    VerifyTextNotContains(step.parameters);
+                    break;
+                case VERIFYTEXTNOTEQUALS:
+                    VerifyTextNotEqual(step.parameters);
+                    break;
                 default:
                     throw new Exception("The Action " + actionName + " is not a valid action name.");
             }
@@ -78,6 +86,21 @@ namespace AutomationFramework_example_v1.Framework
             if (!controlText.Contains(parameters) && !controlValue.Contains(parameters))
             {
                 throw new Exception("Validation Error: the control " + step.controlName + "'s text did not contain \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
+            }
+        }
+
+        private static void VerifyTextNotContains(string parameters)
+        {
+            if (parameters == "")
+            {
+                throw new Exception("No parameters provided for step number " + step.id);
+            }
+            WaitForValue();
+            string controlText = control.Update().Text;
+            string controlValue = control.Update().GetAttribute("value");
+            if (controlText.Contains(parameters) && controlValue.Contains(parameters))
+            {
+                throw new Exception("Validation Error: the control " + step.controlName + "'s text did contain \"" + parameters + "\". \n Expected to not contain: \"" + parameters + "\"\n Actual: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
             }
         }
 
@@ -155,6 +178,21 @@ namespace AutomationFramework_example_v1.Framework
             if (!controlText.Equals(parameters) && !controlValue.Equals(parameters))
             {
                 throw new Exception("Validation Error: the control " + step.controlName + "'s text did not equal \"" + parameters + "\". \n Expected: \"" + parameters + "\"\n Actual Text: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
+            }
+        }
+
+        private static void VerifyTextNotEqual(string parameters)
+        {
+            if (parameters == "")
+            {
+                throw new Exception("No parameters provided for step number " + step.id);
+            }
+            WaitForValue();
+            string controlText = control.Update().Text;
+            string controlValue = control.Update().GetAttribute("value");
+            if (controlText.Equals(parameters) && controlValue.Equals(parameters))
+            {
+                throw new Exception("Validation Error: the control " + step.controlName + "'s text is equal to \"" + parameters + "\". \n Expected to not equal: \"" + parameters + "\"\n Actual Text: \"" + controlText + "\" Actual Value: \"" + controlValue + "\"");
             }
         }
 
