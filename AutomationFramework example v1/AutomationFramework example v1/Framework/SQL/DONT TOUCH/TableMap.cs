@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Reflection;
 
 namespace AutomationFramework_example_v1.Framework.SQL
 {
-    class TableMap : ITableMap
+    public class TableMap : ITableMap
     {
        
-        public bool HasColumn<T>(T c, string ColumnName) where T : class
+        public bool HasColumn<T>(T c, string ColumnName) where T : TableMap
         {
             foreach (FieldInfo f in typeof(T).GetFields())
             {
@@ -19,7 +18,7 @@ namespace AutomationFramework_example_v1.Framework.SQL
             return false;
         }
 
-        public void SetValue<T>(T c, string columnName, object val) where T : class
+        public void SetValue<T>(T c, string columnName, object val) where T : TableMap
         {
             Type type = val.GetType();
             foreach (FieldInfo f in typeof(T).GetFields())
@@ -44,6 +43,19 @@ namespace AutomationFramework_example_v1.Framework.SQL
                     break;
                 }
             }
+        }
+    }
+    public static class TableExtensions
+    {
+        public static bool columnMatch<T>(this T c, string ColumnName, string fieldname) where T : TableMap
+        {
+            return c.GetNameAttribute(fieldname).Equals(ColumnName);
+        }
+
+        private static string GetNameAttribute<T>(this T c, string fieldName) where T : TableMap
+        {
+            var fieldInfo = typeof(T).GetField(fieldName);
+            return ((ColumnMap)Attribute.GetCustomAttribute(fieldInfo, typeof(ColumnMap))).Name;
         }
     }
 }

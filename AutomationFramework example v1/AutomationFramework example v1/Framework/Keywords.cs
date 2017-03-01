@@ -57,13 +57,13 @@ namespace AutomationFramework_example_v1.Framework
 
             currentStep = new StepInfo();
             currentStep.controlName = "inputUserName";
-            currentStep.action = Actions.INPUTTEXT;
+            currentStep.action = "SendKeys";
             currentStep.parameters = userName;
             currentStep.Execute();
 
             currentStep = new StepInfo();
             currentStep.controlName = "inputPassword";
-            currentStep.action = Actions.INPUTTEXT;
+            currentStep.action = "SendKeys";
             currentStep.parameters = password;
             currentStep.Execute();
 
@@ -71,12 +71,12 @@ namespace AutomationFramework_example_v1.Framework
 
             currentStep = new StepInfo();
             currentStep.controlName = "buttonLogin";
-            currentStep.action = Actions.CLICK;
+            currentStep.action = "Click";
             currentStep.Execute();
 
             currentStep = new StepInfo();
             currentStep.controlName = "loginButtonContinue";
-            currentStep.action = Actions.CLICK;
+            currentStep.action = "Click";
             currentStep.parameters = "ifPresent";
             currentStep.Execute();
 
@@ -91,12 +91,12 @@ namespace AutomationFramework_example_v1.Framework
             // Locate and click logout button
             StepInfo currentStep = new StepInfo();
             currentStep.controlName = "buttonLogout";
-            currentStep.action = Actions.CLICK;
+            currentStep.action = "Click";
             currentStep.Execute();
 
             currentStep = new StepInfo();
             currentStep.controlName = "buttonConfirm";
-            currentStep.action = Actions.CLICK;
+            currentStep.action = "Click";
             currentStep.Execute();
         }
 
@@ -108,20 +108,20 @@ namespace AutomationFramework_example_v1.Framework
 
                 StepInfo currentStep = new StepInfo();
                 currentStep.controlName = "buttonWrapup";
-                currentStep.action = Actions.CLICK;
+                currentStep.action = "Click";
                 currentStep.parameters = "ifPresent";
                 currentStep.Execute();
 
                 currentStep = new StepInfo();
                 currentStep.controlName = "wrapupSelectDisposition";
-                currentStep.action = Actions.SELECTOPTIONBYTEXT;
+                currentStep.action = "SelectOptionByText";
                 currentStep.parameters = "X-Research";
                 currentStep.Execute();
 
                 // Locate and select YesNo Select option Yes
                 currentStep = new StepInfo();
                 currentStep.controlName = "wrapupSelectYesNo";
-                currentStep.action = Actions.SELECTOPTIONBYTEXT;
+                currentStep.action = "SelectOptionByText";
                 currentStep.parameters = "Yes";
                 currentStep.Execute();
 
@@ -130,7 +130,7 @@ namespace AutomationFramework_example_v1.Framework
                 // Locate and click confirm button
                 currentStep = new StepInfo();
                 currentStep.controlName = "wrapupConfirmButton";
-                currentStep.action = Actions.CLICK;
+                currentStep.action = "Click";
                 currentStep.Execute();
             }
             driver.Wait(2);

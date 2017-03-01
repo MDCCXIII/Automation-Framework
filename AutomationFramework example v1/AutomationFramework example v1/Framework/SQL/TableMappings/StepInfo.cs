@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
 {
-    class StepInfo : TableMap
+    public class StepInfo : TableMap
     {
 #pragma warning disable 0169
 #pragma warning disable 0649
@@ -31,7 +31,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
         public List<StepInfo> Populate(string procedureName)
         {
             Command cmd = new Command(procedureName);
-            List<StepInfo> result = this.ExecuteStoredProcedure(cmd);
+            List<StepInfo> result = this.ExecuteQuery(cmd);
             cmd.Dispose();
             return result;
         }

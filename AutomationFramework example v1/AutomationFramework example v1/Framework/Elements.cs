@@ -109,5 +109,18 @@ namespace AutomationFramework_example_v1.Framework
 
             return result;
         }
+
+        public static bool IsElementPresent(this IWebDriver driver, By by)
+        {
+            try
+            {
+                Driver.wait.Until(d => d.FindElement(by));
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
     }
 }

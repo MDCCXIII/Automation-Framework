@@ -1,5 +1,6 @@
 ﻿using AutomationFramework_example_v1.Framework.Log.LogObjects;
 using AutomationFramework_example_v1.Framework.SQL;
+using System.Configuration;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
 {
@@ -24,9 +25,10 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
 
         public ActionInfo Populate(string actionName)
         {
-            Command cmd = new Command("getActionInformation");
+            Command cmd = new Command(ConfigurationManager.AppSettings.Get("getActionByActionName"));
             cmd.AddParameter("actionName", actionName);
-            ActionInfo result = this.ExecuteStoredProcedure(cmd)[0];
+            cmd.AddParameter("CSL", Instance.CSL);
+            ActionInfo result = this.ExecuteQuery(cmd)[0];
             cmd.Dispose();
             PopulateLogData(result);
             return result;

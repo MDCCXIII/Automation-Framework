@@ -30,7 +30,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             Command cmd = new Command("getKeywordInformation");
             cmd.AddParameter("keywordName", keywordName);
             cmd.AddParameter("projectName", projectName);
-            KeywordInfo result = this.ExecuteStoredProcedure(cmd)[0];
+            KeywordInfo result = this.ExecuteQuery(cmd)[0];
             cmd.Dispose();
             PopulateLogData(result);
             return result;
