@@ -12,7 +12,7 @@ namespace AutomationFramework_example_v1.Framework.Log.ExampleLogger
 {
     static class ConsoleLogger
     {
-        static StringBuilder sb;
+        static StringBuilder sb = new StringBuilder();
 
         public static void New()
         {

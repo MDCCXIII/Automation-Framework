@@ -3,7 +3,7 @@ using AutomationFramework_example_v1.Framework.SQL;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
 {
-    class ControlInfo : TableMap
+    public class ControlInfo : TableMap
     {
 #pragma warning disable 0169
 #pragma warning disable 0649
@@ -42,7 +42,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             Command cmd = new Command("getControlInformation");
             cmd.AddParameter("controlName", controlName);
             cmd.AddParameter("projectName", projectName);
-            ControlInfo result = this.ExecuteStoredProcedure(cmd)[0];
+            ControlInfo result = this.ExecuteQuery(cmd)[0];
             cmd.Dispose();
             PopulateLogData(result);
             return result;

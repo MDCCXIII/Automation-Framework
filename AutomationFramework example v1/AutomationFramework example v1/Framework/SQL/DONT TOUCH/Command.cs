@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace AutomationFramework_example_v1.Framework.SQL
 {
-    class Command
+    public class Command
     {
         public SqlCommand command { get; }
 
@@ -68,10 +68,36 @@ namespace AutomationFramework_example_v1.Framework.SQL
                 this.command.Connection.Dispose();
                 this.command.Dispose();
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
+        }
+    }
+    public static class CommandExtensions
+    {
+        public static SqlCommand CheckConnectivity(this SqlCommand cmd)
+        {
+            if (cmd.Connection == null)
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings[Program.DefaultConnectionStringName].ConnectionString;
+                cmd.Connection = new SqlConnection(connectionString);
+            }
+            return cmd;
+        }
+
+        public static SqlCommand CheckConnectivity(this SqlCommand cmd, string connectionName)
+        {
+            if (cmd.Connection == null)
+            {
+                if (ConfigurationManager.AppSettings[connectionName] == null)
+                {
+                    throw new Exception(connectionName + " is not a valid key in the App.Config");
+                }
+                string connectionString = ConfigurationManager.ConnectionStrings[connectionName].ConnectionString;
+                cmd.Connection = new SqlConnection(connectionString);
+            }
+            return cmd;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             Command cmd = new Command("getTestInformation");
             cmd.AddParameter("testName", testName);
             cmd.AddParameter("projectName", projectName);
-            List<TestInfo> testInfo = this.ExecuteStoredProcedure(cmd);
+            List<TestInfo> testInfo = this.ExecuteQuery(cmd);
             TestInfo result = testInfo[0];
             cmd.Dispose();
             PopulateLogData(result);

@@ -27,7 +27,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
         {
             TestLogData.DefaultTestValues();
             Command cmd = new Command("getSuiteInformation");
-            List<Suite> result = this.ExecuteStoredProcedure(cmd);
+            List<Suite> result = this.ExecuteQuery(cmd);
             cmd.Dispose();
             return result;
 

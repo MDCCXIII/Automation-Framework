@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace AutomationFramework_example_v1.Framework.SQL
 {
@@ -22,6 +23,19 @@ namespace AutomationFramework_example_v1.Framework.SQL
             get { return ColumnValue; }
             set { ColumnValue = value; }
         }
-        
+    }
+
+    public static class ColumnMapExtensions
+    {
+        public static string DeclaredName(this string field)
+        {
+            return GetFieldName(() => field);
+        }
+
+        private static string GetFieldName<T>(Expression<Func<T>> expr)
+        {
+            var body = ((MemberExpression)expr.Body);
+            return body.Member.Name;
+        }
     }
 }

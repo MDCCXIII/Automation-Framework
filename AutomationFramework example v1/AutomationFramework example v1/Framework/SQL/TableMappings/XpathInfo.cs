@@ -3,7 +3,7 @@ using AutomationFramework_example_v1.Framework.SQL;
 
 namespace AutomationFramework_example_v1.Framework.TableMappings
 {
-    class XpathInfo : TableMap
+    public class XpathInfo : TableMap
     {
 #pragma warning disable 0169
 #pragma warning disable 0649
@@ -24,7 +24,7 @@ namespace AutomationFramework_example_v1.Framework.TableMappings
             Command cmd = new Command("getXpathInformation");
             cmd.AddParameter("pathName", pathName);
             cmd.AddParameter("projectName", projectName);
-            XpathInfo result = this.ExecuteStoredProcedure(cmd)[0];
+            XpathInfo result = this.ExecuteQuery(cmd)[0];
             cmd.Dispose();
             PopulateLogData(result);
             return result;

@@ -61,4 +61,14 @@ namespace AutomationFramework_example_v1.Framework
             driver.Url = projectInfo.Url;
         }
     }
+    public static class DriverExtensions
+    {
+        public static void Wait(this IWebDriver driver, int timeoutInSeconds)
+        {
+            for (var i = 0; i < timeoutInSeconds; i++)
+            {
+                Thread.Sleep(1000);
+            }
+        }
+    }
 }

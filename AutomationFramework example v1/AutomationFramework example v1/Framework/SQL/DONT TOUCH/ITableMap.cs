@@ -2,8 +2,8 @@
 {
     interface ITableMap
     {
-        bool HasColumn<T>(T c, string ColumnName) where T : class;
+        bool HasColumn<T>(T c, string ColumnName) where T : TableMap;
 
-        void SetValue<T>(T c, string columnName, object val) where T : class;
+        void SetValue<T>(T c, string columnName, object val) where T : TableMap;
     }
 }
