@@ -1,5 +1,7 @@
 ﻿using AutomationFramework_example_v1.Framework;
 using AutomationFramework_example_v1.Framework.Log.ExampleLogger;
+using AutomationFramework_example_v1.Framework.SQL.DONT_TOUCH;
+using AutomationFramework_example_v1.Framework.SQL.DONT_TOUCH.Bones_Builder;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -20,6 +22,10 @@ namespace AutomationFramework_example_v1
 
         static void Main(string[] args)
         {
+            new Instance();
+            Config.CheckAppSettings();
+            SQLDataBase.Build();
+            new Actions().LoadActionsIntoDB();
             //use args to set up framework properties like debugging and show console ect.
             try
             {
