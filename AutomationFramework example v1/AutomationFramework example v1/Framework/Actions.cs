@@ -21,12 +21,21 @@ namespace AutomationFramework_example_v1.Framework
         public static void LoadAction()
         {
             MethodInfo method = typeof(Actions).GetMethod(step.action);
+            if (method == null) throw new Exception("Improper step action name: \"" + step.action + "\".");
             try
             {
                 Type deligateType = Expression.GetDelegateType(
-                    (from parameter in method.GetParameters() select parameter.ParameterType)
-                    .Concat(new[] { method.ReturnType }).ToArray());
-                method.CreateDelegate(deligateType).DynamicInvoke(step.parameters);
+                        (from parameter in method.GetParameters() select parameter.ParameterType)
+                        .Concat(new[] { method.ReturnType }).ToArray());
+                if (step.parameters.Equals(""))
+                {
+                    method.CreateDelegate(deligateType).DynamicInvoke();
+                }
+                else
+                {
+                    method.CreateDelegate(deligateType).DynamicInvoke(step.parameters);
+                }
+                
             }
             catch (ArgumentException)
             {
