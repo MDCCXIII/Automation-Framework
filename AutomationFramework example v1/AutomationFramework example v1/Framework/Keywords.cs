@@ -77,7 +77,7 @@ namespace AutomationFramework_example_v1.Framework
             currentStep = new StepInfo();
             currentStep.controlName = "loginButtonContinue";
             currentStep.action = "Click";
-            currentStep.parameters = "ifPresent";
+            currentStep.flags = "ifPresent";
             currentStep.Execute();
 
             driver.Wait(30);
@@ -109,7 +109,7 @@ namespace AutomationFramework_example_v1.Framework
                 StepInfo currentStep = new StepInfo();
                 currentStep.controlName = "buttonWrapup";
                 currentStep.action = "Click";
-                currentStep.parameters = "ifPresent";
+                currentStep.flags = "ifPresent";
                 currentStep.Execute();
 
                 currentStep = new StepInfo();
