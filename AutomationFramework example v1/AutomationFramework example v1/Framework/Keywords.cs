@@ -67,7 +67,7 @@ namespace AutomationFramework_example_v1.Framework
             currentStep.parameters = password;
             currentStep.Execute();
 
-            driver.Wait(1);
+            driver.Sleep(1);
 
             currentStep = new StepInfo();
             currentStep.controlName = "buttonLogin";
@@ -77,10 +77,9 @@ namespace AutomationFramework_example_v1.Framework
             currentStep = new StepInfo();
             currentStep.controlName = "loginButtonContinue";
             currentStep.action = "Click";
-            currentStep.parameters = "ifPresent";
+            currentStep.flags = "ifPresent";
             currentStep.Execute();
-
-            driver.Wait(30);
+            
         }
 
         
@@ -103,13 +102,13 @@ namespace AutomationFramework_example_v1.Framework
         private static void Wrapup()
         {
             By buttonWrapup = By.XPath("//button[contains(@id, 'btnWrapup') and not(contains(@id, 'info'))]");
-            if (driver.IsElementPresent(buttonWrapup))
+            if (Driver.wait.IsElementPresent(buttonWrapup))
             {
 
                 StepInfo currentStep = new StepInfo();
                 currentStep.controlName = "buttonWrapup";
                 currentStep.action = "Click";
-                currentStep.parameters = "ifPresent";
+                currentStep.flags = "ifPresent";
                 currentStep.Execute();
 
                 currentStep = new StepInfo();
@@ -125,7 +124,7 @@ namespace AutomationFramework_example_v1.Framework
                 currentStep.parameters = "Yes";
                 currentStep.Execute();
 
-                driver.Wait(2);
+                driver.Sleep(2);
 
                 // Locate and click confirm button
                 currentStep = new StepInfo();
@@ -133,7 +132,7 @@ namespace AutomationFramework_example_v1.Framework
                 currentStep.action = "Click";
                 currentStep.Execute();
             }
-            driver.Wait(2);
+            driver.Sleep(2);
         }
     }
 }

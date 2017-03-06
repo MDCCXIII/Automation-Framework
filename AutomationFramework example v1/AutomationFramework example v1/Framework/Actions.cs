@@ -23,10 +23,22 @@ namespace AutomationFramework_example_v1.Framework
             MethodInfo method = typeof(Actions).GetMethod(step.action);
             try
             {
-                Type deligateType = Expression.GetDelegateType(
+                Type delegateType = Expression.GetDelegateType(
                     (from parameter in method.GetParameters() select parameter.ParameterType)
                     .Concat(new[] { method.ReturnType }).ToArray());
-                method.CreateDelegate(deligateType).DynamicInvoke(step.parameters);
+                if(step.parameters == null || step.parameters.Equals(""))
+                {
+                    method.CreateDelegate(delegateType).DynamicInvoke();
+                }
+                else if (step.parameters.Split(',').Count() == 1)
+                {
+                    method.CreateDelegate(delegateType).DynamicInvoke(step.parameters);
+                }
+                else
+                {
+                    method.CreateDelegate(delegateType).DynamicInvoke(step.parameters.Split(','));
+                }
+                
             }
             catch (ArgumentException)
             {
@@ -47,15 +59,14 @@ namespace AutomationFramework_example_v1.Framework
                 try
                 {
                     attempt++;
-                    Thread.Sleep(1000);
                     Driver.wait.Until(ExpectedConditions.ElementToBeClickable(control)).Click();
                     break;
 
                 }
                 catch (Exception ex)
                 {
-                    Thread.Sleep(1000);
-                    if(attempt > 2)
+                    Controller.driver.Sleep(1);
+                    if (attempt > 2)
                     {
                         throw ex;
                     }
@@ -196,9 +207,9 @@ namespace AutomationFramework_example_v1.Framework
         public static void WaitForValue()
         {
             int i = 0;
-            while (Actions.control.Update().Text.Equals("") && Actions.control.Update().GetAttribute("value").Equals(""))
+            while (control.Update().Text.Equals("") && control.Update().GetAttribute("value").Equals(""))
             {
-                Thread.Sleep(3000);
+                Controller.driver.Sleep(1);
                 if (i++ >= 4)
                 {
                     TestLogData.warning = "Unable to capture the " + Actions.step.controlName + "'s text or value. Attribute is empty (\"\")";
