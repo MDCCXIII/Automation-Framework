@@ -21,6 +21,7 @@ namespace AutomationFramework_example_v1.Framework
         public static void LoadAction()
         {
             MethodInfo method = typeof(Actions).GetMethod(step.action);
+            if (method == null) throw new Exception("Improper step action name: \"" + step.action + "\".");
             try
             {
                 Type delegateType = Expression.GetDelegateType(

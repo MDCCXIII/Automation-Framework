@@ -127,9 +127,8 @@ namespace AutomationFramework_example_v1.Framework.SQL.DONT_TOUCH
             {
                 return ((ActionMap)Attribute.GetCustomAttribute(methodInfo, typeof(ActionMap))).TableRecord;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine(ex);
                 return null;
             }
         }
