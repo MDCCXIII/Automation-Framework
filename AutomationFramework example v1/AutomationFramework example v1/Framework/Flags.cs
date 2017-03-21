@@ -17,7 +17,7 @@ namespace AutomationFramework_example_v1.Framework
             {
                 try
                 {
-                    Controller.driver.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo));
+                    Driver.wait.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo));
                     return true;
                 }
                 catch
@@ -36,7 +36,7 @@ namespace AutomationFramework_example_v1.Framework
             {
                 try
                 {
-                    Controller.driver.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo));
+                    Driver.wait.IsElementPresent(Elements.GetIdentifier(controlInfo, pathInfo));
                     throw new Exception("The Control was present.");
                 }
                 catch

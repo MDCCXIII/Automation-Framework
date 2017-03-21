@@ -1,6 +1,7 @@
 ﻿using AutomationFramework_example_v1.Framework.Log.ExampleLogger;
 using AutomationFramework_example_v1.Framework.TableMappings;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Threading;
 
@@ -32,26 +33,34 @@ namespace AutomationFramework_example_v1.Framework
 
         private static IWebElement Find(By by)
         {
-            IWebElement result = null;
             int attempt = 0;
-            while (attempt < 4)
+            int maxAttempts = 12;
+
+            IWebElement result = null;
+            WebDriverWait wait = new WebDriverWait(Driver.driver, new TimeSpan(0, 0, 2));
+            while (attempt < maxAttempts && result == null)
             {
                 attempt++;
                 try
                 {
-                    if(Controller.driver.IsElementPresent(by)){
-                        result = Driver.wait.Until(d => Controller.driver.FindElement(by));
+                    if(wait.IsElementPresent(by)){
+                        result = wait.Until(d => Driver.driver.FindElement(by));
                         break;
                     }
                     
                 }
                 catch (Exception ex)
                 {
-                    if (attempt >= 3)
+                    if (attempt >= maxAttempts)
+                    {
                         ConsoleLogger.Log(ex);
-                    break;
+                        break;
+                    }
                 }
-                Thread.Sleep(3000);
+            }
+            if(result == null)
+            {
+                throw new Exception("Failed to Identify an object " + by.ToString());
             }
             return result;
         }
@@ -110,11 +119,11 @@ namespace AutomationFramework_example_v1.Framework
             return result;
         }
 
-        public static bool IsElementPresent(this IWebDriver driver, By by)
+        public static bool IsElementPresent(this WebDriverWait wait, By by)
         {
             try
             {
-                Driver.wait.Until(d => d.FindElement(by));
+                wait.Until(d => d.FindElement(by));
                 return true;
             }
             catch (NoSuchElementException)

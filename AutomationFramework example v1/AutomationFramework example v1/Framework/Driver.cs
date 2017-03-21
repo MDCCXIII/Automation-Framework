@@ -63,7 +63,7 @@ namespace AutomationFramework_example_v1.Framework
     }
     public static class DriverExtensions
     {
-        public static void Wait(this IWebDriver driver, int timeoutInSeconds)
+        public static void Sleep(this IWebDriver driver, int timeoutInSeconds)
         {
             for (var i = 0; i < timeoutInSeconds; i++)
             {
