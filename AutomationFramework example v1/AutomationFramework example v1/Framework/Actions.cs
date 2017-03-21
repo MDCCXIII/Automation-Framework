@@ -7,7 +7,6 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading;
 
 namespace AutomationFramework_example_v1.Framework
 {
@@ -39,7 +38,6 @@ namespace AutomationFramework_example_v1.Framework
                 {
                     method.CreateDelegate(delegateType).DynamicInvoke(step.parameters.Split(','));
                 }
-                
             }
             catch (ArgumentException)
             {

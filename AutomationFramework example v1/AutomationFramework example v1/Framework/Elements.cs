@@ -38,7 +38,7 @@ namespace AutomationFramework_example_v1.Framework
 
             IWebElement result = null;
             WebDriverWait wait = new WebDriverWait(Driver.driver, new TimeSpan(0, 0, 2));
-            while (attempt < maxAttempts)
+            while (attempt < maxAttempts && result == null)
             {
                 attempt++;
                 try
@@ -52,9 +52,15 @@ namespace AutomationFramework_example_v1.Framework
                 catch (Exception ex)
                 {
                     if (attempt >= maxAttempts)
+                    {
                         ConsoleLogger.Log(ex);
-                    break;
+                        break;
+                    }
                 }
+            }
+            if(result == null)
+            {
+                throw new Exception("Failed to Identify an object " + by.ToString());
             }
             return result;
         }

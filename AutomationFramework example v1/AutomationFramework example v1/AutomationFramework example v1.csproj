@@ -82,7 +82,6 @@
     <Compile Include="Examples\Environment.cs" />
     <Compile Include="Examples\Elements_old.cs" />
     <Compile Include="Examples\MyFirstTest.cs" />
-    <Compile Include="Framework\Extensions.cs" />
     <Compile Include="Framework\SQL\DONT TOUCH\ColumnMap.cs" />
     <Compile Include="Framework\SQL\DONT TOUCH\Command.cs" />
     <Compile Include="Framework\SQL\DONT TOUCH\DAO.cs" />
